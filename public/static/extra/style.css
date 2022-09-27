@@ -1,0 +1,66 @@
+/* --------------------------------------------------
+/*  自定义后台扩展样式，需要在加载 console.css 后载入
+/*  使用 php think xadmin:install static 时不会更新此文件
+/* -------------------------------------------------- */
+
+
+.width-fix{
+	width:200px !important;
+	margin-right:20px !important;
+}
+.width-fix .uploadimage{
+	width:100% !important;
+	background-size: contain !important;
+}
+
+.fix-image{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+.img-fluid{
+	max-width: 100% !important;
+	height: auto !important;
+}
+
+.layui-table-view .layui-table[lay-size=xl] .layui-table-cell {
+	height: 60px;
+	line-height: 60px;
+}
+
+.layui-table-view .layui-table[lay-size=xl] .layui-table-cell input.layui-input{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.middle-input{
+	height: 38px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.layui-input-inline{
+	width:240px !important;
+}
+.table-center{
+	text-align:center;
+}
+.table-center .layui-form-radio {
+	margin: 0 !important;
+	padding-right: 0 !important;
+}
+
+.layui-input-width{
+	width:320px !important;
+}
+
+.layui-tree-txt {
+    font-size: 14px;
+}
+
+.layui-tree-txt.layui-font-green {
+    font-weight: bold;
+}
