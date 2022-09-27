@@ -1,0 +1,2 @@
+<input type="hidden" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if}  value="{$value|default=''}" id="input{$prekey}{$name}" />
+<script>$('#input{$prekey}{$name}').uploadMultipleImage()</script>

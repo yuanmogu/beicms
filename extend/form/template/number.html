@@ -1,0 +1,1 @@
+<input type="number" class="layui-input" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" autocomplete="false" value="{$value}" style="width: 120px" {if isset($is_must) && $is_must}lay-verify="required"{/if} {if isset($status) && !$status}disabled{/if}>

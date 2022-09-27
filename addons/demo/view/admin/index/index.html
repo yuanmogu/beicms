@@ -1,0 +1,28 @@
+{extend name='../app/admin/view/table.html'}
+
+
+{block name="button"}
+<!--{if auth("add")}-->
+<button data-table-id="LinkTable" data-modal='{:addons_url("add")}?type={$type|default=""}' data-title="添加项目" class='layui-btn layui-btn-sm layui-btn-primary'>添加项目</button>
+<!--{/if}-->
+
+<!--{if auth("remove")}-->
+<button data-table-id="LinkTable" data-action='{:addons_url("remove")}' data-rule="id#{id}" data-confirm="确定要删除这些项目吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除项目</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        
+        <li class="layui-this color-green" data-open="{:addons_url()}">项目列表</li>
+       
+        <li data-open="{:addons_url()}">内容列表</li>
+       
+    </ul>
+    <div class="layui-tab-content">
+
+        <table id="LinkTable" data-url="{:addons_url()}" data-target-search="form.form-search"></table>
+    </div>
+</div>
+{/block}

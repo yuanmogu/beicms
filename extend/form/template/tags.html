@@ -1,0 +1,1 @@
+<input type="text" class="layui-input tagsinput" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" autocomplete="false" value="{$value}" {if isset($is_must) && $is_must}data-rule="required"{/if}>

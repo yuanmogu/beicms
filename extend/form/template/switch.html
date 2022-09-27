@@ -1,0 +1,3 @@
+<div class="layui-input-inline">
+<input type="checkbox" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" value="1" lay-skin="switch" lay-text="开启|关闭" {if $value}checked{/if} >
+</div>

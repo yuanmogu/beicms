@@ -1,0 +1,4 @@
+<div style="max-width:360px;">
+	<input type="text" class="layui-input" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" value="{$value}" placeholder="可直接输入图片地址">
+</div>
+<script>$('#input{$prekey}{$name}').uploadOneImage()</script>

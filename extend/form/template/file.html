@@ -1,0 +1,5 @@
+
+<div class="layui-input-inline">
+	<input class="layui-input" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" placeholder="请上传LOGO" value="{$value}">
+	<a class="layui-icon layui-icon-upload input-right-icon" data-file {if !empty($prekey)}data-field="{$prekey}.{$name}"{else/}data-field="{$name}"{/if}></a>
+</div>

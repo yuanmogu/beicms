@@ -1,0 +1,9 @@
+<textarea {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}"  class="layui-textarea" placeholder="请输入文章内容" {if isset($is_must) && $is_must}required{/if} {if isset($status) && !$status}disabled{/if}>{$value|default=''}</textarea>
+
+<script>
+    (function () {
+        require(['ckeditor'], function () {
+            window.createEditor('#input{$prekey}{$name}', {height: 300});
+        })
+    })();
+</script>

@@ -1,0 +1,23 @@
+<div class="layui-input-inline">
+	<input {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" value="{$value}" class="layui-input" {if isset($is_must) && $is_must}required{/if} {if isset($status) && !$status}disabled{/if}>
+</div>
+<div class="layui-word-aux" id="color"></div>
+
+
+<script>
+layui.use('colorpicker', function(){
+
+	var colorpicker = layui.colorpicker;
+
+	colorpicker.render({
+		elem: '#color'
+		,predefine: true
+		,color:"{$value}"
+		,colors: ['#F00','#0F0','#00F','rgb(255, 69, 0)','rgba(255, 69, 0, 0.5)']
+		,done: function(color){
+			$('#input{$prekey}{$name}').val(color);
+		}
+	});
+
+});
+</script>

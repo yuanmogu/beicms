@@ -1,0 +1,8 @@
+<div class="layui-input-inline">
+<select {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" {if isset($is_must) && $is_must}lay-verify="required"{/if}>
+	<option value=""> - </option>
+	{volist name="$template.show" id="item"}
+	<option value="{$item}" {if $item == $value}selected{/if}>{$item}</option>
+	{/volist}
+</select>
+</div>

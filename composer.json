@@ -1,0 +1,50 @@
+{
+    "name": "beisoo/beicms",
+    "description": "Extremely elegant website content management system",
+    "type": "project",
+    "keywords": [
+        "thinkphp",
+        "beicms",
+        "cms"
+    ],
+    "homepage": "https://www.beisoo.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "小蘑菇",
+            "email": "67180273@qq.com"
+        }        
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "topthink/framework": "^6.0.0",
+        "topthink/think-orm": "^2.0",
+        "topthink/think-multi-app": "^1.0",
+        "topthink/think-view": "^1.0",
+        "topthink/think-captcha": "^3.0",
+        "topthink/think-image": "^1.0",
+        "phpmailer/phpmailer": "^6.6",
+        "yuanmogu/think-addons": "^1.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^4.2",
+        "topthink/think-trace":"^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
+    }
+}

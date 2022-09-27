@@ -1,0 +1,3 @@
+{volist name="option" id="item"}
+<input type="checkbox" {if !empty($prekey)}name="{$prekey}.{$name}[]"{else/}name="{$name}[]"{/if} id="input{$prekey}{$name}{$i}"  value="{$item.key}" title="{$item.label}" {in name="$item.key" value="$value"}checked{/in}>
+{/volist}

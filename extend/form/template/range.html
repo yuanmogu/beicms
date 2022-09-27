@@ -1,0 +1,21 @@
+<div class="layui-input-inline">
+
+<div id="range{$prekey}{$name}" class="middle-input"></div>
+<input {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" value="{$value}" type="hidden" {if isset($is_must) && $is_must}required{/if} {if isset($status) && !$status}disabled{/if}>
+
+</div>
+<script>
+layui.use(['slider'], function(){
+	var slider = layui.slider;
+	slider.render({
+		elem: '#range{$prekey}{$name}'
+		,value:"{$value}"
+		,change: function(value){
+			$('#input{$prekey}{$name}').val(value);
+			//do something
+		}
+	});      
+
+});
+
+</script>

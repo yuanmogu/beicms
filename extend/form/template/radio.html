@@ -1,0 +1,3 @@
+{volist name="option" id="item"}
+<input type="radio" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" value="{$item.key}" title="{$item.label}" {eq name="$item.key" value="$value"}checked{/eq}>
+{/volist}

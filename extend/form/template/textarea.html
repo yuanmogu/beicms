@@ -1,0 +1,1 @@
+<textarea class="layui-textarea" {if !empty($prekey)}name="{$prekey}.{$name}"{else/}name="{$name}"{/if} id="input{$prekey}{$name}" {if isset($is_must) && $is_must}lay-verify="required"{/if} {if isset($status) && !$status}disabled{/if}>{$value}</textarea>
