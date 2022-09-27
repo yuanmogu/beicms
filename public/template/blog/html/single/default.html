@@ -1,0 +1,81 @@
+{extend name="base" /}
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8 mb-xs-5">
+
+				<div class="part-breadcrumb">
+					<nav aria-label="breadcrumb">
+						{be:breadcrumb class="breadcrumb-item" symbol="" /}
+					</nav>
+				</div>
+
+				<div class="article">
+					<h1 class="article-title">{$info.title}</h1>
+				
+
+					{if in_array('media', $info.genre) && !empty($info.media)}	
+					<video width="640" height="320" src="{$info.media}" controls>
+						您的浏览器不支持 video 标签。
+					</video>
+					{/if}
+
+
+					{if in_array('images', $info.genre) && !empty($info.images)}	
+					<div class="article-images">
+						{volist name="$info['images']|getImagesArr" id="vo"}
+						<figure class="figure">
+							<img src="{$vo}" class="figure-img img-fluid rounded" alt="{$info.title}">
+							<figcaption class="figure-caption text-right">{$info.title}</figcaption>
+						</figure>
+						{/volist}		
+					</div>
+					{/if}
+
+					{if in_array('article', $info.genre)}
+					<div class="article-content">						
+						{$info.content|raw}						
+					</div>
+					{/if}
+
+
+					<div class="article-copyright">
+						<p>版权声明：{$site.title}所提供的文章、图片等内容均为用户发布或互联网整理而来，仅供学习参考，如有侵犯您的版权，请联系：{$contact.email}，我们将在3日内删除。</p>
+					</div>
+
+
+
+				</div>
+
+			
+
+
+				
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+
+				{include file="index/side"/}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+
+
+{block name="js"}
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+
+});
+</script>
+
+{/block}

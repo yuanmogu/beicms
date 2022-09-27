@@ -1,0 +1,71 @@
+{extend name="base" /}
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8 mb-xs-5">
+
+				<div class="part-breadcrumb">
+					<nav aria-label="breadcrumb">
+						{be:breadcrumb class="breadcrumb-item" symbol="" /}
+					</nav>
+				</div>
+
+				
+				<div class="card card-white mb-3 border-top-0">
+					<div class="card-body">
+						<form action="{:url('message/add')}" method="post">
+							<div class="mb-3">
+								<label for="inputtitle" class="form-label">主题</label>
+								<input name="title" type="text" class="form-control" id="inputtitle" aria-describedby="inputtitleHelp">
+								<div id="inputtitleHelp" class="form-text">请输入主题</div>
+							</div>
+							<div class="mb-3">
+								<label for="inputname" class="form-label">名称</label>
+								<input name="name" type="text" class="form-control" id="inputname" aria-describedby="inputnameHelp">
+								<div id="inputnameHelp" class="form-text">请输入您的称谓</div>
+							</div>
+							<div class="mb-3">
+								<label for="inputphone" class="form-label">电话</label>
+								<input name="phone" type="text" class="form-control" id="inputphone">
+							</div>
+							<div class="mb-3">
+								<label for="textareacontent" class="form-label">内容</label>
+								<textarea name="content" class="form-control" id="textareacontent" rows="3"></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary">提交</button>
+						</form>
+					</div>
+				</div>
+				
+			
+
+
+				
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+
+				{include file="index/side"/}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+
+
+{block name="js"}
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+
+});
+</script>
+
+{/block}

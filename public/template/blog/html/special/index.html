@@ -1,0 +1,54 @@
+{extend name="base" /}
+
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-8 mb-xs-5">
+				<div class="part-breadcrumb">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0">
+							<li class="breadcrumb-item"><a href="{:url('@')}"><i class="bi bi-house"></i> 首页</a></li>
+							<li class="breadcrumb-item"><a href="/special.html">专题</a></li>
+						</ol>
+					</nav>
+				</div>
+
+		
+
+				<div class="card card-white mb-3 border-top-0">
+					<div class="card-body">
+						<ul class="article-list row row-cols-1 row-cols-sm-2 row-cols-md-2 g-3">
+							{be:speclist order="sort desc, create_time desc" name="list" pagesize="2"}
+							<li class="item">
+										
+								<div class="article-list-image mb-2">
+									<a class="article-list-thumb" href="{$list.url}" title="{$list.title}"><img src="{$list.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$list.title}"></a>
+								</div>
+						
+								<a class="article-list-title" href="{$list.url}" title="{$list.title}">
+									<h5 class="text-truncate">{$list.title}</h5>
+								</a>
+								
+							</li>
+							{/be:speclist}
+						</ul>
+						<!-- Pagination -->
+						<div class="pagination-nav">
+							<nav aria-label="Page navigation">
+							{$list_page}
+							</nav>
+						</div>
+						<!-- /Pagination -->
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4">
+				{include file="index/side"/}
+
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

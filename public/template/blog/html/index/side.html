@@ -1,0 +1,72 @@
+
+				<form action="{:url('/search')}" method="get" class="mb-3">
+					<div class="input-group">						
+						<input type="search" name="keyword" value="{$keyword|default=''}" class="form-control" placeholder="输入关键词搜索" aria-label="输入关键词搜索" aria-describedby="basic-addon1">
+						<button class="btn btn-outline-secondary" type="submit">搜索</button>
+					</div>
+				</form>
+		
+			
+				
+
+				<div class="card card-white mb-3">
+					<div class="card-header">热门专题</div>
+					<div class="card-body pt-1 pb-2">
+						<div class="row g-2">
+							{be:speclist limit="2" order="sort desc, create_time desc" name="item"}
+							<div class="col-6">
+								<a href="{$item.url}" class="figure">
+									<img src="{$item.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$item.title}">
+									<figcaption class="figure-caption text-center">{$item.title}</figcaption>
+								</a>
+							</div>
+							{/be:speclist}
+						</div>
+					</div>
+				</div>
+
+			
+				<div id="sideSlider" class="carousel slide mb-3" data-bs-ride="carousel">
+					<div class="carousel-indicators">
+						{be:link type="ads" limit="6" name="item"}	
+						<button type="button" data-bs-target="#sideSlider" data-bs-slide-to="{$key}" {if $key==0}class="active"{/if} aria-current="true" aria-label="{$item.title}"></button>
+						{/be:link}
+					</div>
+					<div class="carousel-inner">
+						{be:link type="ads" limit="6" name="item"}	
+						<div class="carousel-item {if $key==0}active{/if}">
+							<img src="{$item.image}" class="d-block w-100" alt="{$item.title}">
+						</div>
+						{/be:link}
+					</div>
+				</div>
+		
+
+
+				<div class="card card-white mb-3">
+					<div class="card-header">猜你喜欢</div>
+					<div class="card-body py-1">
+						<ul class="article-list">
+							{be:arclist limit="6" order="view desc, create_time desc" name="item" flag='p,c'}
+							<li class="item">
+								 <div class="row g-3">
+									<div class="col-5">
+										<a class="article-list-image" href="{$item.url}" title="{$item.title}">
+											<img src="{$item.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$item.title}">
+										</a>
+									</div>
+									<div class="col">
+										<a class="article-list-title" href="{$item.url}" title="{$item.title}">
+											<h5>{$item.title|substr_zh=###,42}</h5>
+										</a>
+										<div class="article-list-info">											
+											<cite>{$item.create_time|format_time_ago}</cite>
+										</div>
+									</div>
+								</div>
+							</li>
+							{/be:arclist}
+						</ul>
+					</div>
+				</div>
+

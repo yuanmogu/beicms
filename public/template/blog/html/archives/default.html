@@ -1,0 +1,146 @@
+{extend name="base" /}
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12 col-lg-10 col-xl-8 ">
+
+				<div class="part-breadcrumb">
+					<nav aria-label="breadcrumb">
+						{be:breadcrumb class="breadcrumb-item" symbol="" /}
+					</nav>
+				</div>
+
+				<div class="article">
+					<h1 class="article-title">{$info.title}</h1>
+					<div class="article-list-info justify-content-md-center">
+						<cite>浏览 {$info.view}</cite>
+
+						<cite>{$info.create_time|format_time_ago} ({$info.create_time|date='Y-m-d H:i'})</cite>
+					</div>
+
+					{if !empty($info.image)}	
+					<div class="article-image">
+						<img src="{$info.image}" class="img-fluid" alt="{$info.title}">
+					</div>
+					{/if}
+
+					{if isset($info.content)}
+					<div class="article-content">						
+						{$info.content|raw}						
+					</div>
+					{/if}
+
+					{if isset($info.images)}	
+					<div class="article-images">
+						{volist name="$info.images|getImagesArr" id="vo"}
+						<figure class="figure">
+							<img src="{$vo}" class="figure-img img-fluid rounded" alt="{$info.title}">
+							<figcaption class="figure-caption text-right">{$info.title}</figcaption>
+						</figure>
+						{/volist}		
+					</div>
+					{/if}
+
+					<div class="tag-list">
+						{volist name="$info.tags" id="tag"}
+						<a href="{:url('/tag/show',['name'=>$tag])}" class="btn btn-sm">{$tag}</a>
+						{/volist}
+					</div>
+
+					<div class="article-copyright">
+						<p>版权声明：{$site.title}所提供的文章、图片等内容均为用户发布或互联网整理而来，仅供学习参考，如有侵犯您的版权，请联系：{$contact.email}，我们将在3日内删除。</p>
+					</div>
+
+
+					<div class="article-bottom d-flex justify-content-center">
+			
+						<a href="javascript:;" class="btn-reward">							
+							<i class="bi bi-upc-scan"></i>
+							<p>打赏一下作者</p>
+						</a>
+			
+					</div>
+
+				</div>
+
+				<div class="card  border-0 mb-3">
+					<div class="card-header">评论</div>
+					<div class="card-body">
+						<form action="{:url('message/add')}" method="post" class="row g-3">
+							<input type="hidden" name="title" value="文章评论：{$info.title}" >
+							<div class="col-12">
+								<textarea name="content" id="comment-message" class="form-control" placeholder="想说点什么？"></textarea>
+							</div>
+							<div class="col-auto">
+								<input type="text" name="name" class="form-control" placeholder="名称">
+							</div>
+							<div class="col-auto">
+								<input type="text" name="phone" class="form-control" placeholder="电话">
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary w-100">发表</button>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="card card-white mb-3">
+					<div class="card-header">网友还看了</div>
+					<div class="card-body pt-1 pb-2">
+						<div class="row">
+							{be:arclist limit="3" order="view desc, create_time desc" name="item" flag='p,c'}
+							<div class="col-4">
+								<a href="{$item.url}" class="figure">
+									<img src="{$item.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$item.title}">
+									<figcaption class="figure-caption ">{$item.title}</figcaption>
+								</a>
+							</div>
+							{/be:arclist}
+						</div>
+					</div>
+				</div>
+
+
+				{include file="index/side"/}	
+			
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+
+
+{block name="js"}
+
+<script src="__ASSETS__/js/sweetalert2.min.js"></script> 
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+	$(".btn-reward").click(function(){
+		Swal.fire({
+			title: '赏一杯奶茶吧!',
+			text: '微信扫一扫给作者打赏，万分感谢您的支持！',
+			imageUrl: '/static/images/reward.jpg',
+			imageWidth: 320,
+			imageHeight: 320,
+			imageAlt: '给作者打赏',
+			backdrop: `
+				rgba(0,0,123,0.4)
+				url("/static/images/nyan-cat.gif")
+				left top
+				no-repeat
+				`
+		})
+	});
+	
+
+});
+</script>
+
+{/block}

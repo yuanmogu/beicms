@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>{$title ?? $site.title}</title>
+	<meta name="keywords" content="{$keywords ?? $site.keywords}">
+	<meta name="description" content="{$description ?? $site.description}">
+
+	<meta name="author" content="{$contact.company}">
+
+	<!-- Set render engine for 360 browser -->
+	<meta name="renderer" content="webkit">
+	<!-- No transcoding by search engine-->
+	<meta http-equiv="Cache-Control" content="no-transform" />
+	<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+	<link rel="icon" type="image/png" href="{$site.favicon ?? '/static/images/favicon.png'}">
+
+    <!-- Bootstrap core CSS -->
+	<link href="__ASSETS__/css/bootstrap.css" rel="stylesheet">
+	<link href="__ASSETS__/fonts/bootstrap-icons.css" rel="stylesheet" >
+	
+	<link href="__ASSETS__/css/app.css" rel="stylesheet" >
+
+	{block name="css"}{/block}
+
+</head>
+<body>    
+
+<header class="header">
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+		<div class="container">
+			<a class="navbar-brand" href="{:url('@')}"><img src="{$site.logo|default='/static/images/logo.png'}" height="32px" alt="{$site.title}" class="d-inline-block"></a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item {eq name='$Request.controller' value='Index'}active{/eq}"><a class="nav-link" href="{:url('@')}">首页</a></li>
+
+					{be:catelist name="cnav"}
+					{present name="$cnav.sub"}
+					<li class="nav-item dropdown {$cnav.current ?? ''}">
+						<a class="nav-link dropdown-toggle" href="{$cnav.url}" id="navbarDropdown{$cnav.id}" role="button" data-bs-toggle="dropdown" aria-expanded="false">{$cnav.title}</a> 
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown{$cnav.id}">
+							{volist name="$cnav.sub" id="nac"}
+							<a class="dropdown-item" href="{$nac.url}">{$nac.title}</a>
+							{/volist}
+						</div>
+					</li>
+					{else/}
+					<li class="nav-item {$cnav.current ?? ''}"><a class="nav-link" href="{$cnav.url}">{$cnav.title}</a> </li>
+					{/present}
+					{/be:catelist}
+
+				</ul>
+			
+				
+			</div>
+		</div>
+	</nav>
+
+</header>
+
+<main>
+{block name="body"}{/block}
+</main>
+
+
+<footer class="footer">
+	<div class="container">
+		
+			<p class="mb-0 text-muted">{$site.copyright|raw} <a href="http://www.miit.gov.cn/" class="text-muted" target="_blank">{$site.miitbeian}</a></p>
+	
+	</div>
+</footer>
+
+
+
+<a href="#" class="toTop"></a>
+
+<script src="__ASSETS__/js/jquery-3.5.1.js"></script> 
+<script src="__ASSETS__/js/bootstrap.js"></script>
+
+<!--Custome-JS--> 
+<script src="__ASSETS__/js/app.js"></script> 
+
+{block name="js"}{/block}
+
+</body>
+</html>

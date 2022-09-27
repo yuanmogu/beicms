@@ -1,0 +1,104 @@
+{extend name="base" /}
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 mb-xs-5">
+				<div id="carouselExampleCaptions" class="carousel slide mb-3" data-bs-ride="carousel">
+					<div class="carousel-indicators">
+						{be:slider name="slo" type='通用类型' limit='6'}
+						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{$i}" {if $i==1}class="active"{/if} aria-current="true" aria-label="{$slo.title}"></button>
+						{/be:slider}
+					</div>
+					<div class="carousel-inner">
+						{be:slider name="slo" type='通用类型' limit='6'}
+						<div class="carousel-item {if $i==1}active{/if}">
+							<a href="{$slo.url}"><img src="{$slo.image}" class="d-block w-100" alt="{$slo.title}"></a>
+							<div class="carousel-caption d-none d-md-block">
+								<h5>{$slo.title}</h5></a>
+								<p>{$slo.remarks}</p>
+							</div>
+						</div>
+						{/be:slider}
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+					
+
+				<div class="card card-white mb-3">
+					<div class="card-header">精选内容</div>
+					<div class="card-body pt-1 pb-2">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+							{be:arclist order="view desc, create_time desc" name="item" flag='p,a' limit="3" }
+							<div class="col">
+								<a href="{$item.url}" class="figure">
+									<img src="{$item.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$item.title}">
+									<figcaption class="figure-caption">{$item.title}</figcaption>
+								</a>
+							</div>
+							{/be:arclist}
+						</div>
+					</div>
+				</div>
+
+				<div class="card card-white mb-3">
+					<div class="card-header">最新文章</div>
+					<div class="card-body py-1">
+						<ul class="article-list">
+							{be:arclist order="create_time desc" name="list" flag='p' pagesize='10'}
+							<li class="item">
+								 <div class="row">
+									<div class="col-5 col-sm-4 col-md-4 col-lg-3 ">
+										<div class="article-list-image">
+											<a class="article-list-thumb" href="{$list.url}" title="{$list.title}"><img src="{$list.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$list.title}"></a>
+											<a class="article-list-cateurl" href="{$list.cate_url}">{$list.cate_name}</a>
+										</div>
+									</div>
+									<div class="col">
+										<a class="article-list-title" href="{$list.url}" title="">
+											<h5 class="">{$list.title}</h5>
+											<p class="d-none d-sm-block">{$list.description|substr_zh=###,90}</p>
+										</a>
+										<div class="article-list-info">
+											<cite class="d-none d-sm-block">浏览 {$list.view}</cite>
+											<cite class="d-none d-sm-block">点赞 {$list.likes}</cite>
+											<cite class="d-none d-sm-block">{$list.create_time|format_time_ago} ({$list.create_time|date='m-d'})</cite>
+										</div>
+									</div>
+								</div>
+							</li>
+							{/be:arclist}
+							
+						</ul>
+
+						
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+
+				{include file="index/side"/}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{/block}
+
+
+{block name="js"}
+<script type="text/javascript">
+$(document).ready( function() {
+
+});
+</script>
+{/block}

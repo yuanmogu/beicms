@@ -1,0 +1,61 @@
+{extend name="base" /}
+
+{block name="body"}
+
+<div class="main-body mt-3">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 mb-xs-5">
+				<div class="part-breadcrumb">
+					<nav aria-label="breadcrumb">
+						{be:breadcrumb class="breadcrumb-item" symbol="" /}
+					</nav>
+				</div>
+
+		
+
+				<div class="card card-white mb-3 border-top-0">
+					<div class="card-body">
+						<ul class="article-list">
+							{be:arclist name="list" pagesize="10"}
+							<li class="item">
+								<div class="row">
+									<div class="col-5 col-sm-4 col-md-4 col-lg-3 ">
+										<div class="article-list-image">
+											<a class="article-list-thumb" href="{$list.url}" title="{$list.title}"><img src="{$list.image|get_thumb=###,480,320}" class="figure-img img-fluid rounded" alt="{$list.title}"></a>
+										</div>
+									</div>
+									<div class="col">
+										<a class="article-list-title" href="{$list.url}" title="">
+											<h5>{$list.title}</h5>
+											<p class="d-none d-sm-block">{$list.description|mb_substr=###,0,90,'utf-8'}...</p>
+										</a>
+										<div class="article-list-info">
+											<cite class="d-none d-sm-block">浏览 {$list.view}</cite>
+											<cite class="d-none d-sm-block">点赞 {$list.likes}</cite>
+											<cite class="d-none d-sm-block">{$list.create_time|format_time_ago} ({$list.create_time|date='m-d'})</cite>
+										</div>
+									</div>
+								</div>
+							</li>
+							{/be:arclist}
+						</ul>
+						<!-- Pagination -->
+						<div class="pagination-nav">
+							<nav aria-label="Page navigation">
+							{$list_page}
+							</nav>
+						</div>
+						<!-- /Pagination -->
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+
+				{include file="index/side"/}
+
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
