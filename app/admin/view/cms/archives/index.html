@@ -1,0 +1,120 @@
+{extend name='../../admin/view/table'}
+
+{block name='button'}
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="ArchivesTable" data-open='{:sysuri("add")}?category_id={$category_id}' id="addArchives">添加文档</button>
+<!--{/if}-->
+
+<!--{if auth("remove")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="ArchivesTable" data-action='{:sysuri("remove")}' data-rule="id#{id}" data-confirm="确定要删除这些文档吗？">删除文档</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+
+<div class="layui-row layui-col-space10">
+	<div class="layui-col-sm4 layui-col-md3 layui-col-lg2">
+		<div class="think-box-shadow">
+		<div id="categoryTree" class="demo-tree"></div>
+		</div>
+	</div>
+	<div class="layui-col-sm8 layui-col-md9 layui-col-lg10">
+
+		<div class="think-box-shadow">
+			{include file='cms/archives/index_search'}
+			<table id="ArchivesTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+		</div>
+	</div>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+
+    $(function () {
+        // 初始化表格组件
+        $('#ArchivesTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'sort desc,id', type: 'desc'},
+			where: {
+				'category_id':{$category_id|default=0}
+			},
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'sort', title: '排序', align: 'center', width: 100, sort: true, templet: '#SortInputTpl'},
+				{field: 'image', title: '图片', width: 60, align: 'center', templet: function (d) {
+                        if (!d.image) return '';
+                        return layui.laytpl('<div data-tips-image data-tips-hover class="headimg headimg-xs headimg-no margin-0" data-lazy-src="{{d.image}}"></div>').render(d);
+                    }
+                },
+                {field: 'title', title: '标题', align: 'left', minWidth: 200},				
+				{field: 'cate_name', title: '栏目', align: 'left', width: 100},
+
+				{field: 'view', title: '浏览', align: 'left', width: 80, sort: true},
+                {field: 'status', title: '状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
+                {field: 'create_time', title: '创建时间', align: 'center', width: 170, sort: true},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', width: 140, fixed: 'right'},
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj) {
+            var data = {id: obj.value, key:'status', value: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:sysuri('modify')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#ArchivesTable').trigger('reload');
+                });
+                return false;
+            }, false);
+        });
+    });
+
+
+	layui.use(['tree','table'], function(){
+		var tree = layui.tree;
+		var table = layui.table;
+	   
+		
+		//渲染
+		var categoryTree = tree.render({
+			elem: '#categoryTree'  //绑定元素
+			,onlyIconControl:true
+			
+			,isJump:true
+			,data: {$cateTree|raw}
+			,oncheck: function(obj){
+				table.reload('ArchivesTable', {page: { curr: 1 }}); 
+			}
+			
+		});
+	
+	});
+
+  
+</script>
+
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri('modify')}" data-value="id#{{d.id}};key#sort;value#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已审|待审" lay-filter="StatusSwitch" {{d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{d.status ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 数据操作工具条模板 -->
+<script type="text/html" id="toolbar">
+    <!--{if auth('edit')}-->
+    <a class="layui-btn layui-btn-primary layui-btn-sm" data-open='{:sysuri("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-danger layui-btn-sm" data-confirm="确定要删除文档吗?" data-action="{:sysuri('remove')}" data-value="id#{{d.id}}">删 除</a>
+    <!--{/if}-->
+</script>
+{/block}

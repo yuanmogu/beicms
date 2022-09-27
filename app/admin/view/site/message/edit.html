@@ -1,0 +1,48 @@
+<form action="{:sysuri('update')}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="MessageTable">
+
+    <div class="layui-card-body padding-left-40">
+
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>留言主题</b> Message Title</span>
+            <input maxlength="100" class="layui-input" name="title" value='{$vo.title}' required placeholder="请输入留言主题">
+        </label>
+		
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-xs6">
+				<label class="layui-form-item relative block">
+					<span class="help-label"><b>名称</b> Message Name</span>
+					<input class="layui-input" name="name" value='{$vo.name}' required placeholder="请输入名称">
+				</label>
+			</div>
+			<div class="layui-col-xs6">
+				<label class="layui-form-item relative block">
+					<span class="help-label"><b>电话</b> Message Phone</span>
+					<input class="layui-input" name="phone" value='{$vo.phone}' required placeholder="请输入电话">
+				</label>
+			</div>
+		</div>
+	
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>内容</b> Message Content</span>
+            <textarea name="content" class="layui-textarea" placeholder="内容">{$vo.content}</textarea>
+        </label>
+
+		<label class="layui-form-item relative block">
+            <span class="help-label"><b>回复</b> Message Reply</span>
+            <textarea name="reply" class="layui-textarea" placeholder="回复">{$vo.reply}</textarea>
+        </label>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+	<input type='hidden' value='{$vo.id}' name='id'>
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>

@@ -1,0 +1,163 @@
+{extend name="../../admin/view/main"}
+
+{block name='content'}
+
+<form class="layui-form" action="{:sysuri('save')}" data-auto="true" method="post" autocomplete="off">
+
+
+		<div class="layui-tab layui-tab-card think-bg-white">
+			<ul class="layui-tab-title">
+				<li class="layui-this">基本</li>
+				{volist name="fieldGroup" id="vGroup"}
+				<li>{$key}</li>
+				{/volist}
+			</ul>
+			<div class="layui-tab-content think-box-shadow table-block">
+				<div class="layui-tab-item layui-show">
+				
+					<div class="layui-form-item">
+						<label class="layui-form-label">栏目</label>
+						<div class="layui-input-block">
+							<select name="category_id" class='layui-select' required>
+								{volist name="category_list" id="cate"}
+								<option value="{$cate['id']}" {if $cate['model_id'] != $model_id}disabled{/if} {present name="$category_id"}{if $cate['id'] == $category_id}selected{/if}{/present}>{$cate['spl']}{$cate['title']}</option>
+								{/volist}
+							</select> 
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">标题</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" name="title" id="title" value="" data-rule="required">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">关键词</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" name="keywords" id="keywords" value="">
+						</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">描述</label>
+						<div class="layui-input-block">
+							<textarea class="layui-textarea" name="description" id="description"></textarea>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">图片</label>
+						<div class="layui-input-block">
+							<div class="layui-input-inline widthFix">
+								<input type="hidden" class="layui-input" name="image" value="" placeholder="可直接输入图片地址">
+							</div>
+						</div>
+					</div>
+
+					{notempty name="specialList"}
+					<div class="layui-form-item">
+						<label class="layui-form-label">专题</label>
+						<div class="layui-input-inline" style="width:400px;">
+							<select name="special_id" class='layui-select'>
+								<option value=""></option>
+								{foreach $specialList as $skey => $special}
+								<optgroup label="{$skey}">
+									{volist name="special" id="spec"}
+									<option value="{$spec['id']}" >{$spec['title']}</option>
+									{/volist}
+								</optgroup>
+								{/foreach}
+							</select> 
+						</div>
+					</div>
+					{/notempty}
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">标记</label>
+						<div class="layui-input-block">	
+							<input type="checkbox" name="flag[]" value="h" title="头条">							
+							<input type="checkbox" name="flag[]" value="a" title="特荐">
+							<input type="checkbox" name="flag[]" value="c" title="推荐">
+							<input type="checkbox" name="flag[]" value="s" title="滚动">
+							<input type="checkbox" name="flag[]" value="p" title="图文">
+						</div>
+					</div>
+
+					
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">浏览</label>
+						<div class="layui-input-inline">
+							<input type="number" class="layui-input" name="view" id="view" value="{:mt_rand(2000,5000)}">
+						</div>				
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">发布时间</label>
+						<div class="layui-input-inline">
+							<input data-date-input="datetime" name="create_time" value="{:date('Y-m-d H:i:s')}" placeholder="请选择时间" class="layui-input" >
+						</div>
+					</div>
+					
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">状态</label>
+						<div class="layui-input-block">
+							<input type="radio" name="status" value="0" title="草稿">
+							<input type="radio" name="status" value="1" title="正常" checked>
+							<input type="radio" name="status" value="2" title="待审">
+						</div>
+					</div>
+
+				</div>
+
+				{volist name="fieldGroup" id="vGroup"}
+				<div class="layui-tab-item">
+					{volist name="vGroup" id="field"}
+					{if $field['type'] eq 'hidden'}
+					<input type="hidden" name="{$field['name']}" value="$field['default']}"/>
+					{else/}
+
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">{$field['title']|htmlspecialchars}</label>
+						<div class="layui-input-block">
+							{:get_form($field, [],$table)}
+							{notempty name="$field['remark']"}
+							<div class="help-block">{$field['remark']|default=''}</div>
+							{/notempty}
+						</div>
+					</div>
+					{/if}
+					{/volist}
+				</div>
+				{/volist}
+
+			</div>
+		</div>
+
+
+		<div class="hr-line-dashed"></div>
+		{:token_field()}
+		<input type="hidden" name="model_id" value="{$model_id}">
+
+		<div class="layui-form-item text-center">
+			<button class="layui-btn" type='submit'>添加数据</button>
+			<button class="layui-btn layui-btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+		</div>
+
+
+	
+</form>
+{/block}
+
+{block name='script'}
+<script>
+
+	$('[name="image"]').uploadOneImage()
+</script>
+{/block}

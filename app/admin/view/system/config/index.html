@@ -1,0 +1,80 @@
+{extend name="main"}
+
+{block name="button"}
+<!--{if isset($super) and $super}-->
+<a class="layui-btn layui-btn-sm layui-btn-primary" data-load="{:sysuri('admin/api.runtime/config')}">清理无效配置</a>
+<!--{/if}-->
+
+<!--{if auth('system')}-->
+<a class="layui-btn layui-btn-sm layui-btn-primary" data-modal="{:sysuri('system')}">修改系统参数</a>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+
+
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>系统参数</b><span class="color-desc font-s12 padding-left-5">System Parameter</span>
+    </div>
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+            <div class="help-label"><b>网站名称</b>Website</div>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.title')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.title')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+            <div class="help-block">网站名称及网站图标，将显示在浏览器的标签上。</div>
+        </div>
+        <div class="layui-form-item">
+            <div class="help-label"><b>管理程序名称</b>Name</div>
+            <label class="relative block">
+                <input readonly value="{:sysconf('app_name')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('app_name')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+            <div class="help-block">管理程序名称，将显示在后台左上角标题。</div>
+        </div>
+        <div class="layui-form-item">
+            <div class="help-label"><b>管理程序版本</b>Version</div>
+            <label class="relative block">
+                <input readonly value="{:sysconf('app_version')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('app_version')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+            <div class="help-block">管理程序版本，将显示在后台左上角标题。</div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>系统信息</b><span class="color-desc font-s12 padding-left-5">System Information</span>
+    </div>
+    <div class="layui-card-body">
+        <table class="layui-table" lay-even>
+            <tbody>
+            <tr>
+                <th class="nowrap text-center">核心框架</th>
+                <td><a target="_blank" href="https://www.thinkphp.cn">ThinkPHP Version {$app->version()}</a></td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">服务器信息</th>
+                <td>{:php_uname()}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">服务器软件</th>
+                <td>{$request->server('SERVER_SOFTWARE',php_sapi_name())}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">PHP 版本</th>
+                <td>PHP Version {$Think.const.PHP_VERSION}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">MySQL 版本</th>
+                <td>MySQL Version {$app->db->query('SELECT VERSION()')[0]['VERSION()']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}

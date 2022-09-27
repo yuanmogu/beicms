@@ -1,0 +1,32 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-row layui-col-space15 margin-bottom-5">
+           
+            <div class="layui-col-xs5 padding-bottom-0">
+                <label class="layui-form-item margin-bottom-5 relative block">
+                    <span class="help-label"><b>抄送邮箱</b> To Email</span>
+                    <input name="message.toemail" type="email" placeholder="请输入抄送邮箱" value="{:sysconf('message.toemail')}" class="layui-input">
+                    <span class="help-block">前台留言后，将信息发送到此邮箱。</span>
+                </label>
+            </div>
+            <div class="layui-col-xs5 padding-bottom-0">
+                <label class="layui-form-item margin-bottom-5 relative block">
+                    <span class="help-label"><b>留言间隔时间</b> Interval Time</span>
+                    <input name="message.interval" type="number" placeholder="请输入程序版本" value="{:sysconf('message.interval')}" class="layui-input">
+                    <span class="help-block">小时，同一IP留言间隔时间，为0则不限制。</span>
+                </label>
+            </div>
+           
+        </div>
+
+
+     
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">保存配置</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消修改吗？" data-close>取消修改</button>
+    </div>
+</form>

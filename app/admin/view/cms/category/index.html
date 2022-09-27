@@ -1,0 +1,97 @@
+{extend name="../../admin/view/table"}
+
+{block name="button"}
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="CategoryTable" data-open='{:sysuri("add")}?type=archives' data-title="添加栏目">添加栏目</button>
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="CategoryTable" data-open='{:sysuri("add")}?type=single' data-title="添加单页">添加单页</button>
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="CategoryTable" data-open='{:sysuri("add")}?type=link' data-title="添加外链">添加外链</button>
+<!--{/if}-->
+
+<!--{if auth("remove")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-table-id="CategoryTable"  data-action='{:sysuri("remove")}' data-rule="id#{sps}">删除分类</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+
+
+<div class="think-box-shadow">
+    <table id="CategoryTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+</div>
+
+<script>
+    $(function () {
+        $('#CategoryTable').layTable({
+            even: true, height: 'full', page: false,
+            sort: {field: 'sort desc,id', type: 'asc'},
+
+            cols: [[
+                {checkbox: true, field: 'sps'},
+                
+				{field: 'id', title: '#', width: 60, align: 'center'},
+				{field: 'sort', title: '排序', width: 100, align: 'center', templet: '#SortInputTpl'},
+				{
+                    field: 'icon', title: '图 标', width: 80, align: 'center', templet: function (d) {
+                        return layui.laytpl('<i class="{{d.icon}} font-s18"></i>').render(d);
+                    }
+                },
+                {
+                    field: 'title', title: '分类名称', minWidth: 220, templet: function (d) {
+                        return layui.laytpl('<span class="color-green">{{d.spl}}</span><span class="layui-font-green">{{d.title}}</span> <span class="layui-font-gray layui-font-12">{{d.name}}</span>').render(d);
+                    }
+                },
+				
+				{field: 'type_text', title: '栏目类型', width: 100, align: 'center'},
+				{field: 'model_title', title: '所属模型', width: 100, align: 'center'},
+
+				{field: 'folder', title: 'URL目录', minWidth: 100, align: 'center'},
+				
+                {field: 'status', title: '分类状态', minWidth: 120, align: 'center', templet: '#StatusSwitchTpl'},
+
+                {toolbar: '#toolbar', title: '操作面板', minWidth: 200, align: 'center', fixed: 'right'},
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (object) {
+            object.data = {status: object.elem.checked > 0 ? 1 : 0};
+            object.data.id = object.value.split('|')[object.data.status] || object.value;
+            $.form.load("{:sysuri('modify')}", {'id':object.data.id, 'key':'status', 'value':object.data.status}, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#CategoryTable').trigger('reload');
+                }); else {
+                    $('#CategoryTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("modify")}-->
+    <input type="checkbox" value="{{d.sps}}|{{d.spp}}" lay-text="已激活|已禁用" lay-filter="StatusSwitch" lay-skin="switch" {{d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{d.status ? '<b class="color-green">已激活</b>' : '<b class="color-red">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri('modify')}" data-value="id#{{d.id}};key#sort;value#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 操控面板的模板 -->
+<script type="text/html" id="toolbar">
+
+
+    <!--{if auth('edit')}-->
+    <a class="layui-btn layui-btn-sm" data-title="编辑分类" data-open='{:sysuri("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+
+    <!--{if auth('remove')}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除此分类吗？" data-action="{:sysuri('remove')}" data-value="id#{{d.sps}}">删 除</a>
+    <!--{/if}-->
+</script>
+{/block}

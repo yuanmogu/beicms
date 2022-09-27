@@ -1,0 +1,115 @@
+<form action="{:sysuri('update')}" data-table-id="ModelTable" class="layui-form layui-card" data-auto="true" method="post">
+
+   <div class="layui-card-body padding-left-40">
+		
+
+		<div class="layui-form-item layui-inline">
+            <label class="layui-form-label">字段名</label>
+            <div class="layui-input-inline">
+                <input type="text" readonly name="name" value='{$vo.name|default=""}' required pattern="^[a-zA-Z]\w{3,30}$"  placeholder="请输入字段英文名称" class="layui-input think-bg-gray">
+            </div>
+			<div class="layui-form-mid layui-word-aux">必填。字段英文名称，如：title</div>
+		</div>
+		<div class="layui-form-item layui-inline">
+            <label class="layui-form-label">字段标题</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" value='{$vo.title|default=""}' required pattern="^[a-zA-Z\u4e00-\u9fa5]{2,50}$" placeholder="请输入字段中文名称" class="layui-input">
+            </div>
+			<div class="layui-form-mid layui-word-aux">必填。字段中文名称，如：标题</div>
+		</div>
+
+		<div class="layui-form-item layui-inline">
+			<label class="layui-form-label">字段分组</label>
+			<div class="layui-input-inline">
+				<select class="form-control" name="group_id" id="group_id">
+					{volist name="attr_group" id="attr"}
+					<option value="{$key}" {present name="vo.group_id"}{eq name="$key" value="$vo.group_id"}selected{/eq}{/present}>{$attr}</option>
+					{/volist}	
+				</select>
+			</div>
+
+			<label class="layui-form-label">字段类型</label>
+			<div class="layui-input-inline">
+				<select class="form-control think-bg-gray" name="type" id="type" readonly disabled>
+					{volist name="type_list" id="type"}
+					<option value="{$key}" data-length="{$type.length}" data-value="{$type.value}"  {present name="vo.type"}{eq name="$key" value="$vo.type"}selected{/eq}{/present}>{$type.label}</option>
+					{/volist}	
+				</select>
+			</div>
+		</div>
+		
+	
+
+		<div class="layui-form-item layui-inline">
+            <label class="layui-form-label">字段长度</label>
+            <div class="layui-input-inline">
+                <input type="text" name="length" value='{$vo.length|default=""}' placeholder="请输入字段长度" class="layui-input">
+            </div>
+
+            <label class="layui-form-label">字段默认值</label>
+            <div class="layui-input-inline">
+				<input type="text" name="value" value='{$vo.value|default=""}' placeholder="请输入字段默认值" class="layui-input">
+            </div>
+		</div>
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">字段参数</label>
+            <div class="layui-input-block">
+				<textarea name="extra" placeholder="布尔、枚举、多选字段类型的定义数据" class="layui-textarea">{$vo.extra|default=""}</textarea>
+            </div>
+		</div>
+
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">字段提示</label>
+            <div class="layui-input-block">
+				<input type="text" name="remark" value='{$vo.remark|default=""}' placeholder="请输入字段提示" class="layui-input">
+            </div>
+		</div>
+
+		<div class="layui-form-item layui-inline">
+			<label class="layui-form-label">是否显示</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="is_show" value="1" title="是" {present name="vo.is_show"}{eq name="$vo.is_show" value="1"}checked{/eq}{else/}checked{/present}>
+				<input type="radio" name="is_show" value="0" title="否" {present name="vo.is_show"}{eq name="$vo.is_show" value="0"}checked{/eq}{/present}>
+			</div>
+			<label class="layui-form-label">是否必填</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="is_must" value="1" title="是" {present name="vo.is_must"}{eq name="$vo.is_must" value="1"}checked{/eq}{/present}>
+				<input type="radio" name="is_must" value="0" title="否" {present name="vo.is_must"}{eq name="$vo.is_must" value="0"}checked{/eq}{else/}checked{/present}>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">状态</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="status" value="1" title="正常" {present name="vo.status"}{eq name="$vo.status" value="1"}checked{/eq}{else/}checked{/present}>
+				<input type="radio" name="status" value="0" title="禁用" {present name="vo.status"}{eq name="$vo.status" value="0"}checked{/eq}{/present}>
+			</div>
+		</div>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+	{:token_field()}
+	<input type='hidden' value='{$vo.model_id}' name='model_id'>
+    <input type='hidden' value='{$vo.id}' name='id'>
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+
+{block name='script'}
+<script>
+
+	form.on('select(fieldtype)', function(data){
+		var length = $(data.elem).find("option:selected").data("length");
+		var value = $(data.elem).find("option:selected").data("value");
+		$("#length").val(length);
+		$("#value").val(value);
+	}); 
+
+</script>
+{/block}

@@ -1,0 +1,41 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form">
+	<div class="layui-card-body">
+
+		<div class="layui-tab layui-tab-card think-bg-white">
+			<ul class="layui-tab-title">
+				{volist name="data" id="cGroup"}
+				<li {eq name="$i" value="1"}class="layui-this"{/eq}>{$cGroup.title}</li>
+				{/volist}
+			</ul>
+			<div class="layui-tab-content table-block">
+				
+				{volist name="data" id="cGroup"}
+				<div class="layui-tab-item {eq name="$i" value="1"}layui-show{/eq}">
+					{foreach cGroup['item'] as $field}
+					<div class="layui-form-item">
+						<label class="layui-form-label">{$field['title']|htmlspecialchars}</label>
+						<div class="layui-input-block">
+							{:get_form($field, [], $key)}
+							{notempty name="$field['tips']"}
+							<div class="help-block">{$field['tips']|default=''}</div>
+							{/notempty}
+						</div>
+					</div>
+			
+					{/foreach}
+				</div>
+				{/volist}
+			</div>
+		</div>
+
+
+		<div class="hr-line-dashed"></div>
+		<input type="hidden" name="name" value="{$name}">
+
+		<div class="layui-form-item text-center">
+			<button class="layui-btn" type='submit'>保存数据</button>
+			<button class="layui-btn layui-btn-danger" type='button' data-close>取消编辑</button>
+		</div>
+	</div>
+
+</form>

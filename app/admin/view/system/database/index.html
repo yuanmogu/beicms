@@ -1,0 +1,86 @@
+{extend name="../../admin/view/main"}
+
+{block name="button"}
+
+<!--{if auth("backup")}-->
+<button data-action='{:sysuri("backup")}' data-rule="id#{key}" data-title="备份数据库" class='layui-btn layui-btn-sm layui-btn-primary'>备份数据库</button>
+<!--{/if}-->
+<!--{if auth("optimize")}-->
+<button data-action='{:sysuri("optimize")}' data-rule="id#{key}" data-title="优化数据库" class='layui-btn layui-btn-sm layui-btn-primary'>优化数据库</button>
+<!--{/if}-->
+<!--{if auth("repair")}-->
+<button data-action='{:sysuri("repair")}' data-rule="id#{key}" data-title="修复数据库" class='layui-btn layui-btn-sm layui-btn-primary'>修复数据库</button>
+<!--{/if}-->
+
+{/block}
+
+{block name='content'}
+<div class="think-box-shadow table-block">
+	<legend>{$tips}</legend>
+    <table class="layui-table margin-top-10" lay-skin="line">
+
+		<colgroup>
+			<col width="40">
+			<col width="160">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="180">
+			<col width="140">
+			<col width="140">
+			<col>
+		</colgroup>
+
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'/></label>
+            </th>
+
+			<th class="text-left nowrap">数据表</th>
+			<th class="text-left nowrap">存储引擎</th>
+            <th class="text-left nowrap">行格式</th>
+            <th class="text-left nowrap">行数</th>
+            <th class="text-left nowrap">大小</th>            
+			<th class="text-left nowrap">表备注</th>
+			<th class="text-left nowrap">创建时间</th>
+			<th class="text-left nowrap">更新时间</th>
+			<th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr >
+            <td class='list-table-check-td think-checkbox'>
+                <label><input class="list-check-box" value='{$vo.name}' type='checkbox'/></label>
+            </td>
+
+			<td class="text-left nowrap">{$vo.name|default=''}</td>
+			<td class="text-left nowrap">{$vo.engine|default=''}</td>
+			<td class="text-left nowrap">{$vo.row_format|default=''}</td>
+			<td class="text-left nowrap">{$vo.rows|default=''}</td>
+			<td class="text-left nowrap">{$vo.data_size|default='0'}</td>
+			<td class="text-left nowrap">{$vo.comment|default=''}</td>
+			<td class="text-left nowrap">{$vo.create_time|default=''}</td>
+			<td class="text-left nowrap">{$vo.update_time|default=''}</td>
+			<td class='text-left nowrap'>
+
+                {if auth("optimize")}
+                <a class="layui-btn layui-btn-sm layui-btn-xs " data-action='{:sysuri("optimize")}' data-value="id#{$vo.name}" data-title="优化表">优化表</a>
+                {/if}
+
+				{if auth("repair")}
+                <a class="layui-btn layui-btn-sm layui-btn-xs " data-action='{:sysuri("repair")}' data-value="id#{$vo.name}" data-title="修复表">修复表</a>
+                {/if}
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

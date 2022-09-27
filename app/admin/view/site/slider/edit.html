@@ -1,0 +1,79 @@
+<form action="{:sysuri('update')}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="SliderTable">
+
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-form-item label-required-prev">
+            <div class="help-label"><b>类型</b>Link Type</div>
+            {if isset($vo.type)}
+            <label><input readonly value="{$vo.type|default=''}" class="layui-input think-bg-gray"></label>
+            {else}
+            <select class="layui-select" lay-filter="DataType">
+                {foreach $types as $type}{if (isset($vo.type) and $type eq $vo.type) or ($type eq input('get.type'))}
+                <option selected value="{$type}">{$type}</option>
+                {else}
+                <option value="{$type}">{$type}</option>
+                {/if}{/foreach}
+            </select>
+            <script>
+                (function (callable) {
+                    layui.form.on('select(DataType)', callable);
+                    callable({value: "{$vo.type|default=''}" || $('[lay-filter=DataType]').val()});
+                })(function (data) {
+                    if (data.value === '--- 新增类型 ---') {
+                        $('#DataTypeInput').removeClass('layui-hide').find('input').val('').focus();
+                    } else {
+                        $('#DataTypeInput').addClass('layui-hide').find('input').val(data.value);
+                    }
+                });
+            </script>
+            {/if}
+            <p class="help-block">请选择类型，数据创建后不能再次修改</p>
+            <div id="DataTypeInput" class="layui-hide relative">
+                <input class="layui-input" maxlength="20" name="type" required placeholder="请输入类型" value="{$vo.type|default=''}">
+                <p class="help-block">请输入新的类型，数据创建后不能再次修改</p>
+            </div>
+        </div>
+
+		<div class="layui-form-item relative block">
+			<span class="help-label"><b>图片</b>Link Image</span>
+			<div class="relative block width-fix">
+				<input class="layui-input layui-hide" name="image" value='{$vo.image|default=""}' placeholder="请上传幻灯片" >
+			</div>
+        </div>
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>标题</b>Link Name</span>
+            <input maxlength="100" class="layui-input" name="title" value='{$vo.title|default=""}' required placeholder="请输入幻灯片标题">
+            <span class="help-block">请输入幻灯片标题</span>
+        </label>
+
+
+		<label class="layui-form-item relative block">
+            <span class="help-label"><b>链接地址</b>Link Url</span>
+            <input maxlength="100" class="layui-input" name="url" value='{$vo.url|default=""}' placeholder="请输入链接地址">
+            <span class="help-block">请输入链接地址</span>
+        </label>
+
+
+
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>备注</b>Link Remarks</span>
+            <textarea name="remarks" class="layui-textarea" placeholder="备注内容">{$vo.remarks|default=""}</textarea>
+        </label>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+
+<script>
+	$('input[name="image"]').uploadOneImage();
+</script>

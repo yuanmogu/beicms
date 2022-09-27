@@ -1,0 +1,41 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:sysuri()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">主题</label>
+            <label class="layui-input-inline">
+                <input name="title" value="{$get.title|default=''}" placeholder="主题关键词搜索" class="layui-input">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">名称</label>
+            <label class="layui-input-inline">
+                <input name="name" value="{$get.name|default=''}" placeholder="按名称搜索" class="layui-input">
+            </label>
+        </div>
+
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">手机</label>
+            <label class="layui-input-inline">
+                <input name="phone" value="{$get.phone|default=''}" placeholder="按手机搜索" class="layui-input">
+            </label>
+        </div>
+
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">留言时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="create_time" value="{$get.create_time|default=''}" placeholder="按留言时间搜索" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-inline">
+            <input type="hidden" name="type" value="{$type|default='index'}">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+</fieldset>

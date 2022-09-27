@@ -1,0 +1,51 @@
+<form action="{:sysuri()}" autocomplete="off" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">标题</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="title" placeholder="请输入文档标题关键词" value="{$get.title|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">文档标记</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="status">
+                <option value=''>-- 全部 --</option>
+                {foreach ['h'=>'头条','c'=>'推荐','a'=>'特荐','s'=>'滚动','p'=>'图文'] as $k=>$v}
+                {if input('flag','-') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">文档状态</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="status">
+                <option value=''>-- 全部状态 --</option>
+                {foreach ['待审','正常','退回'] as $k=>$v}
+                {if input('status','-') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+
+
+	<div class="layui-form-item layui-inline">
+        <label class="layui-form-label">创建时间</label>
+        <div class="layui-input-inline">
+            <input data-date-range name="create_time" value="{$get.create_time|default=''}" placeholder="请选择创建时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>

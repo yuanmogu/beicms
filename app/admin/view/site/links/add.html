@@ -1,0 +1,73 @@
+<form action="{:sysuri('save')}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="LinkTable">
+
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-form-item label-required-prev">
+            <div class="help-label"><b>链接类型</b>Link Type</div>
+           
+            <select class="layui-select" lay-filter="DataType">
+                {foreach $types as $type}
+                <option value="{$type}">{$type}</option>
+				{/foreach}
+            </select>
+            <script>
+                (function (callable) {
+                    layui.form.on('select(DataType)', callable);
+                    callable({value: "{$vo.type|default=''}" || $('[lay-filter=DataType]').val()});
+                })(function (data) {
+                    if (data.value === '--- 新增类型 ---') {
+                        $('#DataTypeInput').removeClass('layui-hide').find('input').val('').focus();
+                    } else {
+                        $('#DataTypeInput').addClass('layui-hide').find('input').val(data.value);
+                    }
+                });
+            </script>
+           
+            <p class="help-block">请选择链接类型，数据创建后不能再次修改哦 ~</p>
+            <div id="DataTypeInput" class="layui-hide relative">
+                <input class="layui-input" maxlength="20" name="type" required placeholder="请输入链接类型" value="">
+                <p class="help-block">请输入新的链接类型，数据创建后不能再次修改哦 ~</p>
+            </div>
+        </div>
+
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>链接名称</b>Link Name</span>
+            <input maxlength="100" class="layui-input" name="title" value='' required placeholder="请输入链接名称">
+            <span class="help-block">请输入当前链接名称</span>
+        </label>
+
+		<label class="layui-form-item relative block">
+            <span class="help-label"><b>链接地址</b>Link Url</span>
+            <input maxlength="100" class="layui-input" name="url"  placeholder="请输入链接名称">
+            <span class="help-block">请输入当前链接地址</span>
+        </label>
+
+  		<div class="layui-form-item relative block">
+			<span class="help-label"><b>链接图片</b>Link Image</span>
+			<div class="relative block width-fix">
+				<input class="layui-input layui-hide" name="image" placeholder="请上传LOGO" >
+			</div>
+        </div>
+
+
+        <label class="layui-form-item relative block">
+            <span class="help-label"><b>备注</b>Link Remarks</span>
+            <textarea name="remarks" class="layui-textarea" placeholder="备注内容"></textarea>
+        </label>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+
+<script>
+	$('input[name="image"]').uploadOneImage();
+</script>

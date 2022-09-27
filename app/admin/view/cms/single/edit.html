@@ -1,0 +1,88 @@
+{extend name="main"}
+
+{block name='content'}
+<form class="layui-card layui-form" action="{:sysuri('update')}" data-auto="true" method="post" autocomplete="off" data-table-id="PageTable">
+
+    <div class="layui-card-body padding-40">
+	
+		<div class="layui-form-item relative block">
+			<span class="help-label"><b>内容体裁</b> Genre</span>
+			<div class="relative block">
+				<input type="checkbox" name="genre[]" value="media" lay-filter="genre" title="媒体" {if isset($vo.genre) && in_array('media', $vo.genre)}checked{/if}>
+				<input type="checkbox" name="genre[]" value="images" lay-filter="genre" title="图集" {if isset($vo.genre) && in_array('images', $vo.genre)}checked{/if}>
+				<input type="checkbox" name="genre[]" value="article" lay-filter="genre" title="内容" {if isset($vo.genre) && in_array('article', $vo.genre)}checked{/if}>
+			</div>
+		</div>
+
+
+		<div class="layui-form-item" id="media" {if !isset($vo.genre) || !in_array('media', $vo.genre)}style="display:none"{/if}>
+			<span class="help-label"><b>媒体</b> Media</span>
+			<div class="relative block">
+				<input id="ipt-media" type="text" name="media" value="{$vo.media|default=''}" placeholder="请上传媒体文件&nbsp; &nbsp; &nbsp; &nbsp;" class="layui-input" {if !isset($vo.genre) || !in_array('media', $vo.genre)}disabled="disabled"{/if}>
+			</div>
+		</div>
+
+
+		<div class="layui-form-item" id="images" {if !isset($vo.genre) || !in_array('images', $vo.genre)}style="display:none"{/if}>
+			<span class="help-label"><b>图集</b> Images</span>
+			<div class="relative block">
+				<input id="ipt-images" type="hidden" name="images" value="{$vo.images|default=''}" {if !isset($vo.genre) || !in_array('images', $vo.genre)}disabled="disabled"{/if}>
+			</div>
+		</div>
+
+
+
+		<div class="layui-form-item" id="article" {if !isset($vo.genre) || !in_array('article', $vo.genre)}style="display:none"{/if}>
+			<span class="help-label"><b>内容</b> Article</span>
+			<div class="relative block">
+				<textarea id="ipt-article" class="layui-textarea" placeholder="请输入文章内容" name="content">{$vo.content|default=''}</textarea>
+			</div>
+		</div>
+
+		
+        <div class="hr-line-dashed"></div>
+		{:token_field()}
+		<input type='hidden' value='{$vo.id}' name='id'>
+
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-history-back>取消编辑</button>
+        </div>
+
+    </div>
+
+</form>
+	
+<script>
+
+	$('#ipt-images').uploadMultipleImage();
+	$('#ipt-media').uploadOneVideo();
+
+    require(['ckeditor'], function () {
+        window.createEditor('[name=content]', {height: 350});
+    });
+
+   
+
+	layui.use('form', function(){
+		var form = layui.form;
+		form.on('checkbox(genre)', function(data){
+			
+			if (data.elem.checked) {
+				$('#'+data.value).show();
+				$('#ipt-'+data.value).removeAttr("disabled");
+			}else{
+				$('#'+data.value).hide();
+				$('#ipt-'+data.value).attr("disabled", true);
+			}
+
+		});
+
+
+
+	});
+
+
+</script>
+
+{/block}

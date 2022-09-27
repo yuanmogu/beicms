@@ -1,0 +1,111 @@
+{extend name='table'}
+
+{block name="button"}
+<!--{if auth("remove")}-->
+<button data-table-id="AddonsTable" data-action='{:sysuri("remove")}' data-rule="id#{id}" data-confirm="确定要删除选中的日志吗？" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+        <table class="layui-table margin-top-10" lay-skin="line">
+            {notempty name='list'}
+            <thead>
+            <tr>
+                <th class='list-table-check-td think-checkbox'>
+                    <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+                </th>
+                <th class='list-table-sort-td'>
+                    <button class="layui-btn layui-btn-xs" data-reload type="button">刷 新</button>
+                </th>
+                <th class='text-left nowrap'>标识</th>
+                <th class='text-left nowrap'>名称</th>
+				<th class='text-left nowrap'>作者</th>
+				<th class='text-left nowrap'>版本号</th>
+                <th class='text-left nowrap'>状态</th>
+				<th></th>
+            </tr>
+            </thead>
+            {/notempty}
+            <tbody>
+            {foreach $list as $key=>$vo}
+            <tr {notpresent name="$vo.id"}class="layui-bg-gray"{/notpresent}>
+                <td class='list-table-check-td think-checkbox'>
+                    <label><input class="list-check-box" type='checkbox' value='{$vo.name|default=0}'></label>
+                </td>
+                <td class='list-table-sort-td'>
+					{present name="$vo.id"}
+                    <label><input class="list-sort-input" data-action-blur="{:sysuri('setsort')}" data-loading="false" data-value="name#{$vo.name};value#{value}" value="{$vo.sort|default=0}"></label>
+					{/present}
+                </td>
+                <td class='nowrap'>
+                   {$vo.name|default='--'}
+                </td>
+				<td class='nowrap'>
+                   <div data-tips-text="{$vo.description|default=''}">{$vo.title|default='--'}</div>
+                </td>
+				<td class='nowrap'>
+                   {$vo.author|default='--'} {notempty name="$vo.website"}<span  data-tips-text="预览网站：{$vo.website}" class="margin-left-10"><i data-iframe='{$vo.website}' data-title="{$vo.author|default='--'}" class="layui-icon layui-icon-website"></i></span>{/notempty}
+                </td>
+				<td class='nowrap'>
+                   {$vo.version|default='--'}
+                </td>
+                <td class='nowrap'>
+					{present name="$vo.status"}
+					{eq name='vo.status' value='1'}<span class="layui-badge layui-bg-gray layui-border-green">启用中</span>{else}<span class="layui-badge layui-bg-gray layui-border-red">已禁用</span>{/eq}
+					{else/}
+					<span class="layui-badge layui-bg-gray layui-border-black">未安装</span>
+					{/present}
+                </td>
+		
+                <td class='nowrap sub-strong-blue'>
+
+            
+					{present name="$vo.status"}
+
+					
+					{if !empty($vo.config) && auth("config")}			
+                    <a class="layui-btn layui-btn-xs" data-title="插件配置" data-modal='{:sysuri("config")}?name={$vo.name}'>配 置</a>
+					{else/}
+					<span class="layui-btn layui-btn-xs layui-btn-disabled">配 置</span>
+					{/if}
+
+
+                    {if isset($vo.status) and $vo.status eq 1}
+                    <a class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:sysuri('modify')}" data-value="id#{$vo.id};key#status;value#0">禁 用</a>
+                    {/if}
+
+					{if isset($vo.status) and $vo.status eq 0}
+					<a class="layui-btn layui-btn-xs " data-action="{:sysuri('modify')}" data-value="id#{$vo.id};key#status;value#1">启 用</a>
+					{/if}
+					
+
+
+					<!--{if auth("uninstall")}-->
+                    <a class="layui-btn layui-btn-xs layui-btn-danger" data-action="{:sysuri('uninstall')}" data-confirm="确定要卸载此插件吗？" data-value="name#{$vo.name}">卸 载</a>
+                    <!--{/if}-->
+
+
+
+					{else/}
+					
+					<!--{if auth("install")}-->
+                    <a class="layui-btn layui-btn-xs" data-action="{:sysuri('install')}" data-value="name#{$vo.name};">安 装</a>
+					<!--{/if}-->
+                   
+					{/present}
+
+                  
+                  
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}
+
+{block name='script'}
+
+{/block}

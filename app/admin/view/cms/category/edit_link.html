@@ -1,0 +1,107 @@
+{extend name="../../admin/view/main"}
+
+{block name='content'}
+<form action="{:sysuri('update')}" data-table-id="CategoryTable" class="layui-form layui-card" data-auto="true" method="post">
+    <div class="layui-card-body padding-left-40">
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">分类设置</b></legend>
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs6">
+                    <div class="block relative">
+                        <span class="help-label"><b>绑定上级分类</b> Category Parent</span>
+						<select class='layui-select' name='pid' lay-search>
+							{foreach $cates as $cate}
+							{eq name='cate.id' value='$vo.pid|default=0'}
+							<option selected value='{$cate.id}'>{$cate.spl|raw} {$cate.title}</option>
+							{else}
+							<option value='{$cate.id}'>{$cate.spl|raw} {$cate.title}</option>
+							{/eq}{/foreach}
+						</select>
+                    </div>
+                </div>
+               
+            </div>
+
+        </fieldset>
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">链接信息</b></legend>
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs4">
+					<label class="relative block">
+						<span class="help-label"><b>链接标题</b>Link Title</span>
+						<input type="text" name="title" value="{$vo.title}" pattern="^[a-zA-Z\u4e00-\u9fa5]{2,30}$" placeholder="请输入链接标题" class="layui-input"  required >
+						<span class="help-block"><b>必填</b> 分类名称，一般 4-6 个汉字。</span>
+					</label>
+                
+
+					<label class="relative block">
+                        <span class="help-label"><b>链接地址</b>Link Url</span>
+                        <input type="text" name="link" value="{$vo.link}" placeholder="请输入链接地址" class="layui-input">
+                    </label>
+
+		
+					<label class="relative block">
+						<span class="help-label"><b>状态</b> Category Status</span>
+						<div class="layui-form-item notselect" >
+							<input type="radio" name="status" value="1" title="正常" {eq name="$vo.status" value="1"}checked{/eq}>
+							<input type="radio" name="status" value="0" title="禁用" {eq name="$vo.status" value="0"}checked{/eq}>
+						</div>
+					</label>
+
+                </div>
+
+				 <div class="layui-col-xs4">
+				 	
+                    <label class="relative block">
+                        <span class="help-label"><b>链接目录</b>Link Folder</span>
+                        <input type="text" name="folder" value="{$vo.folder}" pattern="^[a-zA-Z]{2,30}$" placeholder="请输入链接目录" class="layui-input" required>
+                        <span class="color-desc"><b>必填</b> 栏目的URL地址，仅英文字母。</span>
+                    </label>
+                </div>
+
+				<div class="layui-col-xs4">
+					<div class="relative block margin-bottom-10">
+						<span class="help-label"><b>单页图标</b> Single Icon</span>
+						<input class="layui-input" name="icon" value='{$vo.icon|default=""}' lay-filter="iconPicker" style="display:none;" >
+					</div>
+
+					<span class="help-label"><b>单页图片</b>Single Image</span>
+					<label class="relative block width-fix">
+						<input class="layui-input" name="image" value="{$vo.image}" placeholder="请上传单页图标" >
+						<a class="input-right-icon layui-icon layui-icon-upload" data-field="image" data-file data-type="png,jpg,gif,jpeg"></a>
+					</label>
+				</div>
+            </div>
+            
+		</fieldset>
+
+
+		
+		<input name='id' type='hidden' value='{$vo.id}'>
+
+		<div class="hr-line-dashed"></div>
+		{:token_field()}
+
+
+		<div class="layui-form-item text-center">
+			<button class="layui-btn" type='submit'>保存数据</button>
+			<button class="layui-btn layui-btn-danger" data-close type='button' data-confirm="确定要取消编辑吗？">取消编辑</button>
+		</div>
+	</div>
+
+</form>
+
+<script>
+	$('input[name="icon"]').iconSelect();
+	$('[name=image]').uploadOneImage();
+    require(['jquery.autocompleter'], function () {
+        $('[name="icon"]').on('change', function () {
+            $(this).parent().next().find('i').get(0).className = this.value
+        });
+    });
+</script>
+
+{/block}

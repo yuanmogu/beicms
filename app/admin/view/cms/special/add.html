@@ -1,0 +1,117 @@
+<form action="{:sysuri('save')}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="BaseTable">
+
+    <div class="layui-card-body padding-left-40">
+
+      
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">分类设置</b></legend>
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs8">
+                    <div class="block relative">
+                        <div class="help-label"><b>专题类型</b>Link Type</div>
+           
+						<select class="layui-select" lay-filter="DataType">
+							{foreach $types as $type}
+							<option value="{$type}">{$type}</option>
+							{/foreach}
+						</select>
+						<script>
+							(function (callable) {
+								layui.form.on('select(DataType)', callable);
+								callable({value: "{$vo.type|default=''}" || $('[lay-filter=DataType]').val()});
+							})(function (data) {
+								if (data.value === '--- 新增类型 ---') {
+									$('#DataTypeInput').removeClass('layui-hide').find('input').val('').focus();
+								} else {
+									$('#DataTypeInput').addClass('layui-hide').find('input').val(data.value);
+								}
+							});
+						</script>
+					   
+						<p class="help-block">请选择专题类型，数据创建后不能再次修改哦 ~</p>
+						<div id="DataTypeInput" class="layui-hide relative">
+							<input class="layui-input" maxlength="20" name="type" required placeholder="请输入专题类型" value="">
+							<p class="help-block">请输入新的专题类型，数据创建后不能再次修改哦 ~</p>
+						</div>
+                    </div>
+                </div>
+                <div class="layui-col-xs4">
+					<span class="help-label"><b>专题图片</b> Special Image</span>
+					<label class="relative block width-fix">
+						<input class="layui-input" name="image" placeholder="请上传分类图标" >
+						<a class="input-right-icon layui-icon layui-icon-upload" data-field="image" data-file data-type="png,jpg,gif"></a>
+					</label>
+				</div>
+            </div>
+
+        </fieldset>
+
+
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">专题信息</b></legend>
+            <div class="layui-row layui-col-space15">
+
+
+                <div class="layui-col-xs4">
+					<label class="relative block">
+						<span class="help-label"><b>专题名称</b> Special Title</span>
+						<input type="text" name="title" pattern="^[a-zA-Z\u4e00-\u9fa5]{2,30}$" placeholder="请输入分类名称" class="layui-input"  required >
+						<span class="help-block"><b>必填</b> 分类名称，一般 4-6 个汉字。</span>
+					</label>
+                </div>
+
+                <div class="layui-col-xs4">
+                    <label class="relative block">
+                        <span class="help-label"><b>专题目录</b> Special Folder</span>
+                        <input type="text" name="folder" pattern="^[a-zA-Z]{2,30}$" placeholder="请输入专题目录" class="layui-input" required>
+                        <span class="color-desc"><b>必填</b> 专题的URL地址，仅英文字母。</span>
+                    </label>
+                </div>
+				<div class="layui-col-xs4">
+                    <div class="block relative">
+                        <span class="help-label"><b>显示模板</b> Show Template</span>
+						<select name='template' class='layui-select'>
+							<option value=""> - </option>
+							{foreach name="template_list.special" item="v"}
+							<option value="{$v}" {present name="vo.template"}{eq name="$vo.template" value="$v"}selected{/eq}{/present}>{$v}</option>
+							{/foreach}
+						</select>   
+                    </div>
+                </div>
+
+
+				<div class="layui-col-xs12">
+					<label class="relative block">
+						<span class="help-label"><b>关键词</b> Special Title</span>
+						<input type="text" name="keywords" placeholder="请输入关键词，半角逗号“,”隔开" class="layui-input">
+					</label>
+			
+					<label class="layui-form-item block relative margin-top-10">
+						<span class="help-label"><b>描述</b> Special Description</span>
+						<textarea placeholder="请输入描述" class="layui-textarea" name="description"></textarea>
+					</label>
+				</div>
+            </div>
+            
+		</fieldset>
+
+ 
+    </div>
+
+    <div class="hr-line-dashed"></div>
+	{:token_field()}
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+
+<script>
+	$('input[name="image"]').uploadOneImage();
+</script>

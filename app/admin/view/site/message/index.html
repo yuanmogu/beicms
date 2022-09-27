@@ -1,0 +1,98 @@
+{extend name='table'}
+
+{block name="button"}
+
+
+<!--{if auth("config")}-->
+<button data-modal='{:sysuri("config")}' data-title="留言设置" class='layui-btn layui-btn-sm '>留言设置</button>
+<!--{/if}-->
+
+
+<!--{if auth("add")}-->
+<button data-modal='{:sysuri("add")}' data-title="添加留言" class='layui-btn layui-btn-sm layui-btn-primary'>添加留言</button>
+<!--{/if}-->
+
+
+<!--{if auth("remove")}-->
+<a data-confirm="确定要删除这些留言吗？" data-table-id="MessageTable" data-action='{:sysuri("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
+<!--{/if}-->
+
+
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+	{include file='site/message/index_search'}
+	<table id="MessageTable" data-url="{:sysuri('index')}" data-target-search="form.form-search"></table>
+</div>
+<script>
+    $(function () {
+        $('#MessageTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'create_time', type: 'desc'},
+            cols: [[
+                {checkbox: true, fixed: true},
+
+                {field: 'title', title: '消息主题', minWidth: 100, templet: '<div>{{d.title||"-"}}</div>'},
+                {field: 'name', title: '名称', minWidth: 100, templet: '<div>{{d.name||"-"}}</div>'},
+
+                {field: 'phone', title: '联系电话', minWidth: 120, templet: '<div>{{d.phone||"-"}}</div>'},
+				{field: 'geoisp', title: '地理位置', align: 'center', minWidth: 120, sort: true},
+				
+                {field: 'status', title: '留言状态', align: 'center', width: 140, templet: '#StatusSwitchTpl'},
+
+                {field: 'create_time', title: '创建时间', align: 'center', minWidth: 170, sort: true},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 160, fixed: 'right'}
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj) {
+            var data = {id: obj.value, key:'status', value: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:sysuri('modify')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#MessageTable').trigger('reload');
+                }); else $('#MessageTable').trigger('reload')
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+	{{#  if(d.status == 0){ }}
+    <button class='layui-btn layui-btn-primary layui-btn-xs'>未读</button>
+
+<!--{if auth("modify")}-->
+<a data-table-id="MessageTable" data-action="{:sysuri('modify')}" data-rule="id#{{d.id}};key#status;value#1" class='layui-btn layui-btn-xs'>设为已读</a>
+<!--{/if}-->
+
+	{{#  } }} 
+    {{#  if(d.status == 1){ }}
+	<button class='layui-btn layui-btn-primary layui-btn-xs'>已读</button>
+<!--{if auth("modify")}-->
+<a data-table-id="MessageTable" data-action="{:sysuri('modify')}" data-rule="id#{{d.id}};key#status;value#0" class='layui-btn layui-btn-xs'>设为未读</a>
+<!--{/if}-->
+    {{#  } }}
+	{{#  if(d.status == 2){ }}
+	<button class='layui-btn layui-btn-primary layui-btn-xs'>已回复</button>
+<!--{if auth("modify")}-->
+<a data-table-id="MessageTable" data-action="{:sysuri('modify')}" data-rule="id#{{d.id}};key#status;value#1" class='layui-btn layui-btn-xs'>设为已读</a>
+<!--{/if}-->
+    {{#  } }}
+</script>
+
+
+<script type="text/html" id="toolbar">
+	<!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-sm" data-title="编辑留言" data-modal='{:sysuri("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+
+
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要永久删除此留言吗？" data-action="{:sysuri('remove')}" data-value="id#{{d.id}}">删 除</a>
+    <!--{/if}-->
+
+</script>
+{/block}

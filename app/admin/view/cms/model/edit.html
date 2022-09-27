@@ -1,0 +1,91 @@
+
+<form action="{:sysuri('update')}" data-table-id="ModelTable" class="layui-form layui-card" data-auto="true" method="post">
+
+   <div class="layui-card-body padding-left-40">
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">模型信息</b></legend>
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs6">
+					<label class="relative block">
+						<span class="help-label"><b>模型名称</b> Model Title</span>
+						<input type="text" readonly name="title" value="{$vo.title}" pattern="^[a-zA-Z\u4e00-\u9fa5]{2,30}$" placeholder="请输入模型名称" class="layui-input think-bg-gray"  required >
+						<span class="help-block"><b>必填</b> 模型中文名称，汉字，如：文章。</span>
+					</label>
+                </div>
+                <div class="layui-col-xs6">
+                    <label class="relative block">
+                        <span class="help-label"><b>模型表名</b> Model Table</span>
+                        <input type="text" readonly name="name" value="{$vo.name}" pattern="^[a-z]{3,20}$"  placeholder="请输入模型表名" class="layui-input think-bg-gray" required>
+						<span class="help-block"><b>必填</b> 模型英文表名，小写字母，如：article。</span>
+                    </label>
+                </div>
+
+				<div class="layui-col-xs12">
+					<label class="relative block">
+						<span class="help-label"><b>字段分组</b> Attribute Group</span>
+						<input type="text" name="attribute_group" value='{$vo.attribute_group|default="内容"}' placeholder="请输入字段分组" class="layui-input" required>
+						<span class="help-block"><b>必填</b> 多个分组间以|分隔，如：内容|扩展</span>
+					</label>
+			
+					<label class="layui-form-item block relative margin-top-10">
+						<span class="help-label"><b>列表定义</b> List Grid</span>
+						<textarea placeholder="请输入列表定义" class="layui-textarea" name="list_grid">{$vo.list_grid|default=""}</textarea>
+					</label>
+				</div>
+            </div>
+            
+		</fieldset>
+
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">页面设置</b></legend>
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs4">
+                    <div class="block relative">
+                        <span class="help-label"><b>列表页模板</b> List Template</span>
+						<select name='template_list' class='layui-select'>
+							{foreach name="template_list.category" item="v"}
+							<option value="{$v}" {present name="vo.template_list"}{eq name="$vo.template_list" value="$v"}selected{/eq}{/present}>{$v}</option>
+							{/foreach}
+						</select>   
+
+                    </div>
+                </div>
+                <div class="layui-col-xs4">
+                    <div class="block relative">
+                        <span class="help-label"><b>内容页模板</b> Show Template</span>
+						<select name='template_show' class='layui-select'>
+							{foreach name="template_list.archives" item="v"}
+							<option value="{$v}" {present name="vo.template_show"}{eq name="$vo.template_show" value="$v"}selected{/eq}{/present}>{$v}</option>
+							{/foreach}
+						</select>   
+                    </div>
+                </div>
+
+				<div class="layui-col-xs4">
+					<label class="relative block">
+						<span class="help-label"><b>状态</b> Model Status</span>
+						<div class="layui-form-item notselect" >
+							<input type="radio" name="status" value="1" title="正常" {eq name="$vo.status" value="1"}checked{/eq}>
+							<input type="radio" name="status" value="0" title="禁用" {eq name="$vo.status" value="0"}checked{/eq}>
+						</div>
+					</label>
+				</div>
+            </div>
+		</fieldset>
+
+
+		<div class="hr-line-dashed"></div>
+		{:token_field()}
+		<input name='id' type='hidden' value='{$vo.id}'>
+
+
+		<div class="layui-form-item text-center">
+			<button class="layui-btn" type='submit'>保存数据</button>
+			<button class="layui-btn layui-btn-danger" data-close type='button' data-confirm="确定要取消编辑吗？">取消编辑</button>
+		</div>
+	</div>
+
+</form>

@@ -1,0 +1,98 @@
+{extend name="main"}
+
+
+
+{block name="content"}
+
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>系统参数</b><span class="color-desc font-s12 padding-left-5">System Parameter</span>
+    </div>
+    <div class="layui-card-body">
+		
+		<div class="layui-form-item">
+            <label class="relative block width-fix">
+				<a class="uploadimage" style="background-image: url({:sysconf('site.logo')}); background-repeat: no-repeat; background-size: contain;"></a>
+            </label>
+        </div>
+		<div class="layui-form-item">
+            <span class="color-green font-w7">网站名称</span><span class="margin-left-5 color-desc">Title</span>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.title')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.title')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+        </div>
+		<div class="layui-form-item">
+            <span class="color-green font-w7">网站关键词</span><span class="margin-left-5 color-desc">Keywords</span>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.keywords')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.keywords')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+        </div>
+		<div class="layui-form-item">
+            <span class="color-green font-w7">网站描述</span><span class="margin-left-5 color-desc">Description</span>
+            <label class="relative block">
+                <textarea class="layui-textarea" readonly>{:sysconf('site.description')}</textarea>
+            </label>
+        </div>
+		<div class="layui-form-item">
+            <span class="color-green font-w7">网站备案</span><span class="margin-left-5 color-desc">MIIT</span>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.miitbeian')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.miitbeian')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+        </div>
+		<div class="layui-form-item">
+            <span class="color-green font-w7">公安备案</span><span class="margin-left-5 color-desc">NISM</span>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.nisbeian')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.nisbeian')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+        </div>
+
+       
+        <div class="layui-form-item">
+            <span class="color-green font-w7">网站版权信息</span><span class="margin-left-5 color-desc">Copyright</span>
+            <label class="relative block">
+                <input readonly value="{:sysconf('site.copyright')}" class="layui-input layui-bg-gray">
+                <a data-copy="{:sysconf('site.copyright')}" class="layui-icon layui-icon-release input-right-icon"></a>
+            </label>
+        </div>
+
+    </div>
+</div>
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>系统信息</b><span class="color-desc font-s12 padding-left-5">System Information</span>
+    </div>
+    <div class="layui-card-body">
+        <table class="layui-table" lay-even>
+            <tbody>
+            <tr>
+                <th class="nowrap text-center">服务器信息</th>
+                <td>{:php_uname()}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">服务器软件</th>
+                <td>{$request->server('SERVER_SOFTWARE',php_sapi_name())}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">PHP 版本</th>
+                <td>PHP Version {$Think.const.PHP_VERSION}</td>
+            </tr>
+            <tr>
+                <th class="nowrap text-center">MySQL 版本</th>
+                <td>MySQL Version {$app->db->query('SELECT VERSION()')[0]['VERSION()']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name='script'}
+<script>
+	$('input[name="site.logo"]').uploadOneImage();
+</script>
+{/block}

@@ -1,0 +1,62 @@
+<div class="padding-10">
+	<div class="layui-elip notselect nowrap"></div>
+	<div class="margin-top-15 layui-progress layui-progress-big" lay-showPercent="yes"><div class="layui-progress-bar transition" lay-percent="00.00%"></div></div>
+	<div class="margin-top-15">
+		<code class="layui-textarea layui-bg-black border-0" disabled style="resize:none;overflow:hidden;height:190px"></code>
+	</div>
+</div>
+
+
+<script>
+
+		var progress = 1;
+
+        var queryProgress = function() {
+			
+			$.ajax({
+				url: "{:sysuri('_restore_progress')}",
+				data: {key: progress},
+				type: 'get',
+				async: false,
+				dataType: 'json',
+				success:function(res) {
+					console.log(res);
+					// 设置延时
+					if (!res || typeof res.msg == undefined) {
+						setTimeout(queryProgress, 1000);
+						return false;
+					}
+					
+					// 查找元素
+					var html = '';
+					var logsElem = $('.layui-textarea');
+					if (res.code == 1) {
+						if (res.msg) {
+							html += '<p class="layui-elip">'+res.msg+'</p>';
+						}
+						if (progress < res.total) {
+							progress += 1;
+						}
+					} else if (res.code == 0) { // 错误信息
+						html = '<font color="red">'+res.msg+'</font>';
+					}
+
+					// 移动焦点
+					logsElem.append(html);
+					if (logsElem[0].scrollHeight >= logsElem[0].clientHeight) {
+						var scrollTop = logsElem[0].scrollHeight-logsElem[0].clientHeight;
+						logsElem.scrollTop(scrollTop);
+					}
+						
+					if (parseInt(res.key) < res.total) {
+						setTimeout(queryProgress, 10);
+					}
+
+					$('.layui-progress-bar').attr('lay-percent',res.progress) && layui.element.render();;
+				}
+			});
+        }
+
+
+		queryProgress();
+</script>

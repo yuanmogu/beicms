@@ -1,0 +1,106 @@
+{extend name="table"}
+
+
+
+{block name="content"}
+
+
+<div class="layui-card padding-20 shadow">
+	<div class="layui-card-header notselect">
+        <b>模板设置</b> <span class="color-desc font-s12 padding-left-5">Template Set</span>
+    </div>
+
+	<div class="layui-card-body padding-left-40 padding-bottom-0">
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">PC端模板</label>
+			<div class="layui-input-inline">
+				<input readonly name="template.pc" value="{$data.pc}" placeholder="请选择PC端模板" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux"><span>必须</span>，H5自适应。</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">手机端模板</label>
+			<div class="layui-input-inline">
+				<input readonly name="template.mobile" value="{$data.mobile}" placeholder="请选择手机端模板" class="layui-input">
+			</div>
+
+			{notempty name="$data.mobile"}
+			<div class=" layui-word-aux">
+				<a data-confirm="确定要关闭手机端吗？" data-load="{:sysuri('set')}?name=mobile&id=" class="layui-btn layui-btn-primary">关闭手机端</a>
+			</div>
+			{/notempty}
+
+		</div>
+
+
+	</div>
+    
+</div>
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>PC端模板</b> <span class="color-desc font-s12 padding-left-5">可使用H5模板</span>
+    </div>
+    <div class="layui-card-body nowrap">
+		<div class="layui-row layui-col-space20">
+			{volist name="list['pc']" id="item"}
+			<div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+				<figure class="figure">
+					<img src="{$item['preview']|get_thumb=###,300,300,4}" alt="{$item['name']}" class="img-fluid">
+			
+					<figcaption class="figure-caption text-center">
+						<h4>{$item['name']}</h4>
+
+						{if !empty($data.pc) && $data.pc == $item['id']}
+						<button class="layui-btn layui-btn-sm layui-btn-disabled" disabled>已启用</button>
+						{else/}
+						<a data-load="{:sysuri('set')}?name=pc&id={$item.id}" class="layui-btn layui-btn-sm">启用</a>
+						{/if}
+
+
+						{if $item['config']}
+						<a data-modal="{:sysuri('config',['name'=>$item['id']])}" data-title="模板配置" class="layui-btn layui-btn-primary layui-border-blue layui-btn-sm"><i class="layui-icon layui-icon-template"></i> 模板配置</a>
+						{/if}
+					</figcaption>
+				
+				</figure>
+			</div>
+			{/volist}
+		</div>
+    </div>
+</div>
+
+
+
+<div class="layui-card padding-20 shadow">
+    <div class="layui-card-header notselect">
+        <b>手机端模板</b> <span class="color-desc font-s12 padding-left-5">手机端/微信端等</span>
+    </div>
+    <div class="layui-card-body nowrap">
+		<div class="layui-row layui-col-space20">
+			{volist name="list['mobile']" id="item"}
+			<div class="layui-col-xs6 layui-col-sm4 layui-col-md3">
+				<figure class="figure">
+					<img src="{$item['preview']|get_thumb=###,200,300,4}" alt="{$item['name']}" class="img-fluid">
+			
+					<figcaption class="figure-caption text-center">
+						<h4>{$item['name']}</h4>
+
+						{if !empty($data.mobile) && $data.mobile == $item['id']}
+						<button class="layui-btn layui-btn-sm layui-btn-disabled" disabled>已启用</button>
+						{else/}
+						<a data-load="{:sysuri('set')}?name=mobile&id={$item.id}" class="layui-btn layui-btn-sm">启用</a>
+						{/if}
+					</figcaption>
+				
+				</figure>
+			</div>
+			{/volist}
+		</div>
+    </div>
+</div>
+
+
+{/block}

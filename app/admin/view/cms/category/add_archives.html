@@ -1,0 +1,161 @@
+{extend name="../../admin/view/main"}
+
+{block name='content'}
+<form action="{:sysuri('save')}" data-table-id="CategoryTable" class="layui-form layui-card" data-auto="true" method="post">
+    <div class="layui-card-body padding-left-40">
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">分类设置</b></legend>
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs6">
+                    <div class="block relative">
+                        <span class="help-label"><b>绑定上级分类</b> Category Parent</span>
+						<select class='layui-select' name='pid' lay-search>
+							{foreach $cates as $cate}
+							{eq name='cate.id' value='$vo.pid|default=0'}
+							<option selected value='{$cate.id}'>{$cate.spl|raw} {$cate.title}</option>
+							{else}
+							<option value='{$cate.id}'>{$cate.spl|raw} {$cate.title}</option>
+							{/eq}{/foreach}
+						</select>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="block relative">
+                        <span class="help-label"><b>所属模型</b> Category Model</span>
+						<select class='layui-select' name='model_id' lay-search>
+							{foreach $cms_model as $cm}
+							<option value='{$cm.id}'>{$cm.title}</option>
+							{/foreach}
+						</select>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">栏目信息</b></legend>
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs4">
+					<label class="relative block">
+						<span class="help-label"><b>栏目名称</b>Category Title</span>
+						<input type="text" name="title" pattern="^[a-zA-Z\u4e00-\u9fa5]{2,30}$" placeholder="请输入分类名称" class="layui-input"  required >
+						<span class="help-block"><b>必填</b> 分类名称，一般 4-6 个汉字。</span>
+					</label>
+                </div>
+                <div class="layui-col-xs4">
+                    <label class="relative block">
+                        <span class="help-label"><b>英文名称</b>English Title</span>
+                        <input type="text"  name="name" pattern="^[a-zA-Z][\s\w]{3,30}$"  placeholder="请输入栏目英文名称" class="layui-input">
+                    </label>
+                </div>
+                <div class="layui-col-xs4">
+                    <label class="relative block">
+                        <span class="help-label"><b>栏目目录</b>Category Folder</span>
+                        <input type="text" name="folder" pattern="^[a-zA-Z]{2,30}$" placeholder="请输入栏目目录" class="layui-input" required>
+                        <span class="color-desc"><b>必填</b> 栏目的URL地址，仅英文字母。</span>
+                    </label>
+                </div>
+
+				
+				<div class="layui-col-xs8">
+					<label class="relative block">
+						<span class="help-label"><b>关键词</b>Category Title</span>
+						<input type="text" name="keywords" placeholder="请输入关键词，半角逗号“,”隔开" class="layui-input">
+					</label>
+			
+					<label class="layui-form-item block relative margin-top-10">
+						<span class="help-label"><b>描述</b>Category Description</span>
+						<textarea placeholder="请输入描述" class="layui-textarea" name="description"></textarea>
+					</label>
+				</div>
+				<div class="layui-col-xs4">
+					<div class="relative block margin-bottom-10">
+						<span class="help-label"><b>栏目图标</b>Category Icon</span>
+						<input class="layui-input" name="icon" lay-filter="iconPicker" style="display:none;" >
+					</div>
+
+					<span class="help-label"><b>栏目图片</b>Category Image</span>
+					<label class="relative block width-fix">
+						<input class="layui-input" name="image" placeholder="请上传分类图标" >
+						<a class="input-right-icon layui-icon layui-icon-upload" data-field="image" data-file data-type="png,jpg,gif"></a>
+					</label>
+				</div>
+            </div>
+            
+		</fieldset>
+
+
+
+		<fieldset class="layui-bg-gray">
+            <legend><b class="layui-badge think-bg-violet">页面设置</b></legend>
+
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs3">
+                    <div class="block relative">
+                        <span class="help-label"><b>列表页模板</b> List Template</span>
+						<select name='template_list' class='layui-select'>
+							<option value="">跟随模型</option>					
+							{foreach name="template_list.category" item="v"}
+							<option value="{$v}" {present name="vo.template_list"}{eq name="$vo.template_list" value="$v"}selected{/eq}{/present}>{$v}</option>
+							{/foreach}
+						</select>   
+
+                    </div>
+                </div>
+                <div class="layui-col-xs3">
+                    <div class="block relative">
+                        <span class="help-label"><b>内容页模板</b> Show Template</span>
+						<select name='template_show' class='layui-select'>
+							<option value="">跟随模型</option>
+							{foreach name="template_list.archives" item="v"}
+							<option value="{$v}" {present name="vo.template_show"}{eq name="$vo.template_show" value="$v"}selected{/eq}{/present}>{$v}</option>
+							{/foreach}
+						</select>   
+                    </div>
+                </div>
+
+                <div class="layui-col-xs3">
+					<label class="relative block">
+						<span class="help-label"><b>分页条数</b> Category Pagesize</span>
+						<input type="number" name="pagesize" placeholder="请输入分页条数" class="layui-input">
+					</label>
+				</div>
+				<div class="layui-col-xs3">
+					<label class="relative block">
+						<span class="help-label"><b>状态</b> Category Status</span>
+						<div class="layui-form-item notselect" >
+							<input type="radio" name="status" value="1" title="正常" checked>
+							<input type="radio" name="status" value="0" title="禁用"}>
+						</div>
+					</label>
+				</div>
+            </div>
+		</fieldset>
+
+		<input type="hidden" name="type" value="archives">
+		<div class="hr-line-dashed"></div>
+		{:token_field()}
+
+
+		<div class="layui-form-item text-center">
+			<button class="layui-btn" type='submit'>保存数据</button>
+			<button class="layui-btn layui-btn-danger" data-close type='button' data-confirm="确定要取消编辑吗？">取消编辑</button>
+		</div>
+	</div>
+
+</form>
+
+<script>
+	$('input[name="icon"]').iconSelect();
+	$('[name=image]').uploadOneImage();
+    require(['jquery.autocompleter'], function () {
+        $('[name="icon"]').on('change', function () {
+            $(this).parent().next().find('i').get(0).className = this.value
+        });
+    });
+</script>
+
+{/block}

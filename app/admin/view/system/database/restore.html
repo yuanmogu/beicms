@@ -1,0 +1,83 @@
+{extend name="../../admin/view/main"}
+
+{block name="button"}
+
+<!--{if auth("remove")}-->
+<button data-action='{:sysuri("remove")}' data-rule="id#{key}" data-title="删除备份" class='layui-btn layui-btn-sm layui-btn-primary'>删除备份</button>
+<!--{/if}-->
+
+{/block}
+
+{block name='content'}
+<div class="think-box-shadow table-block">
+	<legend>{$tips}</legend>
+    <table class="layui-table margin-top-10" lay-skin="line">
+
+		<colgroup>
+			<col width="40">
+			<col width="120">
+			<col width="180">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="160">
+			<col>
+		</colgroup>
+
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'/></label>
+            </th>
+
+			<th class="text-left nowrap">编号</th>
+			<th class="text-left nowrap">文件名称</th>
+            <th class="text-left nowrap">分卷</th>
+            <th class="text-left nowrap">文件大小</th>
+            <th class="text-left nowrap">分隔符</th>            
+			<th class="text-left nowrap">创建时间</th>
+			<th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr >
+            <td class='list-table-check-td think-checkbox'>
+                <label><input class="list-check-box" value='{$vo.time}' type='checkbox'/></label>
+            </td>
+
+			<td class="text-left nowrap">{$vo.time|default=''}</td>
+			<td class="text-left nowrap">{$vo.name|default=''}</td>
+			<td class="text-left nowrap">{$vo.part|default=''}</td>
+			<td class="text-left nowrap">{$vo.data_length|default=''}</td>
+			<td class="text-left nowrap">{$vo.compress|default=''}</td>
+			<td class="text-left nowrap">{$vo.addtime|default=''}</td>
+			<td class='text-left nowrap'>
+
+                {if auth("_restore")}
+                <a class="layui-btn layui-btn-sm layui-btn-xs confirm-restore" data-modal='{:sysuri("_restore")}?id={$vo.time}' data-area="560px">还原表</a>
+                {/if}
+
+
+
+				{if auth("remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-xs layui-btn-danger" data-action='{:sysuri("remove")}' data-value="id#{$vo.time}" data-title="删除备份" data-confirm="确定要删除此备份？">删除备份</a>
+                {/if}
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}
+
+{block name='script'}
+<script>
+
+
+</script>
+{/block}

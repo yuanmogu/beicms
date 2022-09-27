@@ -1,0 +1,607 @@
+{extend name="main"}
+
+
+{block name="content"}
+
+<div class="layui-tab layui-tab-card">
+	<ul class="layui-tab-title">
+		<li class="layui-this">基本设置</li>
+		<li>联系方式</li>
+		<li>存储设置</li>
+		<li>图片水印</li>
+		<li>邮件设置</li>
+		<li>高级配置</li>
+	</ul>
+	<div class="layui-tab-content">
+		<div class="layui-tab-item layui-show">
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<label class="layui-form-label">网站LOGO</label>
+						<div class="layui-input-inline width-fix">
+							<input class="layui-input" name="site.logo" placeholder="请上传网站LOGO" required value="{:sysconf('site.logo')}">
+							<a data-copy="{literal}{$site.logo}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux"></div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">网站名称</label>
+						<div class="layui-input-inline">
+							<input name="site.title" value="{:sysconf('site.title')}" class="layui-input">
+							<a data-copy="{literal}{$site.title}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">网站名称将显示在浏览器的标签上。</div>
+					</div>
+
+					<div class="layui-form-item ">
+						<label class="layui-form-label">网站关键词</label>
+						<div class="layui-input-inline">
+							<input name="site.keywords" value="{:sysconf('site.keywords')}" class="layui-input">
+							<a data-copy="{literal}{$site.keywords}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">SEO关键词，以半角逗号“,”隔开。</div>
+					</div>
+					<div class="layui-form-item ">
+						<label class="layui-form-label">网站描述</label>
+						<div class="layui-input-inline">
+							<textarea class="layui-textarea" name="site.description" placeholder="请输入网站描述">{:sysconf('site.description')}</textarea>
+						</div>
+						<div class="layui-form-mid layui-word-aux">SEO描述，网站描述信息</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">网站标语</label>
+						<div class="layui-input-inline">
+							<input name="site.slogon" value="{:sysconf('site.slogon')}" class="layui-input">
+							<a data-copy="{literal}{$site.slogon}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">网站名称将显示在浏览器的标签上。</div>
+					</div>
+
+					<div class="layui-form-item ">
+						<label class="layui-form-label">浏览器小图标</label>
+						<div class="layui-input-inline">
+							<input class="layui-input" pattern="^(http|/)" placeholder="请上传浏览器图标" value="{:sysconf('site.favicon')}" name="site.favicon">
+							<a class="input-right-icon layui-icon layui-icon-upload-drag" data-file="btn" data-type="png,jpg,jpeg" data-field="site.favicon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">
+							建议 <span>128x128</span> 或 <span>256x256</span> 的 <span>JPG</span>,<span>PNG</span> 图片，<a data-load="{:sysuri('setFavicon')}">点此生成.ico图标</a>。
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">公安备案号</label>
+						<div class="layui-input-inline">
+							<input name="site.nisbeian" value="{:sysconf('site.nisbeian')?:'-'}" class="layui-input">
+							<a data-copy="{literal}{$site.nisbeian}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">公网备案号，可以在 <a target="_blank" href="http://www.beian.gov.cn/">备案管理中心</a> 查询获取，将在登录页面下面显示。</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">网站备案号</label>
+						<div class="layui-input-inline">
+							<input name="site.miitbeian" value="{:sysconf('site.miitbeian')?:'-'}" class="layui-input">
+							<a data-copy="{literal}{$site.miitbeian}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">网站备案号，可以在 <a target="_blank" href="https://beian.miit.gov.cn">备案管理中心</a> 查询获取，将显示在登录页面下面。</div>
+					</div>
+
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">网站版权信息</label>
+						<div class="layui-input-inline">
+							<input name="site.copyright" value="{:sysconf('site.copyright')}" class="layui-input">
+							<a data-copy="{literal}{$site.copyright}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+			</form>	
+		</div>
+		<div class="layui-tab-item">
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<label class="layui-form-label">公司名称</label>
+						<div class="layui-input-inline">
+							<input name="contact.company" value="{:sysconf('contact.company')}" class="layui-input">
+							<a data-copy="{literal}{$contact.company}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">公司LOGO</label>
+						<div class="layui-input-inline width-fix">
+							<input class="layui-input" name="contact.logo" placeholder="请上传LOGO" required value="{:sysconf('contact.logo')}">
+							<a data-copy="{literal}{$contact.logo}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">联系人</label>
+						<div class="layui-input-inline">
+							<input name="contact.liaison" value="{:sysconf('contact.liaison')}" class="layui-input">
+							<a data-copy="{literal}{$contact.liaison}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">联系电话</label>
+						<div class="layui-input-inline">
+							<input name="contact.telephone" value="{:sysconf('contact.telephone')}" class="layui-input">
+							<a data-copy="{literal}{$contact.telephone}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">联系手机</label>
+						<div class="layui-input-inline">
+							<input name="contact.phone" value="{:sysconf('contact.phone')}" class="layui-input">
+							<a data-copy="{literal}{$contact.phone}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">电子信箱</label>
+						<div class="layui-input-inline">
+							<input name="contact.email" value="{:sysconf('contact.email')}" class="layui-input">
+							<a data-copy="{literal}{$contact.email}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">联络地址</label>
+						<div class="layui-input-inline">
+							<input name="contact.address" value="{:sysconf('contact.address')}" class="layui-input">
+							<a data-copy="{literal}{$contact.address}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">地图坐标</label>
+						<div class="layui-input-inline">
+							<input name="contact.coordinates" value="{:sysconf('contact.coordinates')}" class="layui-input">
+							<a data-copy="{literal}{$contact.coordinates}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">动态地图显示位置，可以通过<a href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">拾取坐标</a>获取，例如：114.068196,22.546445</div>
+					</div>
+					
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+			</form>
+		</div>
+		<div class="layui-tab-item">
+			
+			
+
+			<div class="layui-card-body layui-clear">
+				<div class="layui-btn-group shadow-mini nowrap">
+					{foreach ['local' => '本地服务器存储','qiniu' => '七牛云对象存储','alioss' => '阿里云OSS存储','txcos' => '腾讯云COS存储'] as $k => $v} {if sysconf('storage.type') eq $k}
+					{if auth('storage')}<a data-title="配置{$v}" data-modal="{:sysuri('storage')}?type={$k}" class="layui-btn layui-btn-sm layui-btn-active">{$v}</a>{else}<a class="layui-btn layui-btn-sm layui-btn-active">{$v}</a>{/if}
+					{else}
+					{if auth('storage')}<a data-title="配置{$v}" data-modal="{:sysuri('storage')}?type={$k}" class="layui-btn layui-btn-sm layui-btn-primary">{$v}</a>{else}<a class="layui-btn layui-btn-sm layui-btn-primary">{$v}</a>{/if}
+					{/if}{/foreach}
+				</div>
+				<div class="margin-top-20 nowrap full-width pull-left">
+					<p><b>本地服务器存储</b>：文件直接上传到本地服务器的 `static/upload` 目录，不支持大文件上传，占用服务器磁盘空间，访问时消耗服务器带宽流量。</p>
+					<p><b>七牛云对象存储</b>：文件直接上传到七牛云存储空间，支持大文件上传，不占用服务器空间及服务器带宽流量，支持 CDN 加速访问，访问量大时推荐使用。</p>
+					<p><b>阿里云OSS存储</b>：文件直接上传到阿里云 OSS 存储空间，支持大文件上传，不占用服务器空间及服务器带宽流量，支持 CDN 加速访问，访问量大时推荐使用。</p>
+					<p><b>腾讯云COS存储</b>：文件直接上传到腾讯云 COS 存储空间，支持大文件上传，不占用服务器空间及服务器带宽流量，支持 CDN 加速访问，访问量大时推荐使用。</p>
+				</div>
+
+				
+		
+			</div>
+			
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body layui-clear">
+					<fieldset>
+					<legend><b class="layui-badge think-bg-violet">本地图片存储设置</b></legend>
+					<div class="layui-form-item">
+						<label class="layui-form-label">开启图片压缩</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="compress.enable" value="1" title="开启" {if sysconf('compress.enable')}checked{/if}>
+							<input type="radio" name="compress.enable" value="0" title="关闭" {if !sysconf('compress.enable')}checked{/if}>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">压缩图片质量</label>
+						<div class="layui-input-inline">
+							<div id="compress-quality" class="middle-input"></div>
+							<input name="compress.quality" value="{:sysconf('compress.quality')}" type="hidden">
+						</div>
+						<div class="layui-form-mid layui-word-aux">数值越小，图片越小，质量越差，默认为75</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">图片压缩大小</label>
+						<div class="layui-input-inline" style="max-width:120px">
+							<input name="compress.size" value="{:sysconf('compress.size')}" class="layui-input">
+						</div>
+						<div class="layui-form-mid layui-word-aux">MB，大于此值就压缩</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">图片最大宽高</label>
+						<div class="layui-input-inline" style="max-width:80px">
+							<input name="compress.width" value="{:sysconf('compress.width')}" class="layui-input">
+						</div>
+						<div class="layui-input-inline" style="max-width:80px">
+							<input name="compress.height" value="{:sysconf('compress.height')}" class="layui-input">
+						</div>
+						<div class="layui-form-mid layui-word-aux">宽 &times; 高，大于此宽高就压缩</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">自动下载</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="editor.download" value="1" title="开启" {if sysconf('editor.download')}checked{/if}>
+							<input type="radio" name="editor.download" value="0" title="关闭" {if !sysconf('editor.download')}checked{/if}>
+						</div>
+						<div class="layui-form-mid layui-word-aux">是否自动下载编辑器里的远程图片</div>
+					</div>
+					</fieldset>
+				</div>
+
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+				
+			</form>
+
+		</div>
+		<div class="layui-tab-item">
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<label class="layui-form-label">水印开关</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="watermark.enable" value="1" title="开启" {if sysconf('watermark.enable')}checked{/if}>
+							<input type="radio" name="watermark.enable" value="0" title="关闭" {if !sysconf('watermark.enable')}checked{/if}>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">最小尺寸</label>
+						<div class="layui-input-inline" style="max-width:80px">
+							<input name="watermark.minwidth" value="{:sysconf('watermark.minwidth')}" class="layui-input">
+						</div>
+						<div class="layui-input-inline" style="max-width:80px">
+							<input name="watermark.minheight" value="{:sysconf('watermark.minheight')}" class="layui-input">
+						</div>
+						<div class="layui-form-mid layui-word-aux">宽 &times; 高，大于此尺寸的才加水印</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">水印类型</label>
+						<div class="layui-input-inline">
+							<input type="radio" name="watermark.type" value="text" title="文字" {if sysconf('watermark.type')=='text' || !sysconf('image.type')}checked{/if}>
+							<input type="radio" name="watermark.type" value="image" title="图片" {if sysconf('watermark.type')=='image'}checked{/if}>
+						</div>
+					</div>
+
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">水印图片</label>
+						<div class="layui-input-inline width-fix">
+							<input class="layui-input" name="watermark.image" placeholder="请上传LOGO" value="{:sysconf('watermark.image')}">
+							<a class="layui-icon layui-icon-upload input-right-icon" data-file data-field="watermark.image" data-type="gif,png,jpg,jpeg"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">可直接输入地址，若上传，最好先关闭图片水印功能。</div>
+					</div>
+
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">水印文字</label>
+						<div class="layui-input-inline">
+							<input name="watermark.text" value="{:sysconf('watermark.text')}" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">文字大小</label>
+						<div class="layui-input-inline">
+							<input name="watermark.size" value="{:sysconf('watermark.size')}" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">文字颜色</label>
+						<div class="layui-input-inline">
+							<input name="watermark.color" value="{:sysconf('watermark.color')}" class="layui-input">
+						</div>
+						<div class="layui-word-aux" id="color"></div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">透明度</label>
+						<div class="layui-input-inline">
+							<div id="opacity" class="middle-input"></div>
+							<input name="watermark.opacity" value="{:sysconf('watermark.opacity')}" type="hidden">
+						</div>
+						<div class="layui-form-mid layui-word-aux">数值越小越透明</div>
+					</div>
+
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">水印位置</label>
+						<div class="layui-input-inline">
+							<table class="layui-table table-center" lay-size="sm">
+								<tbody>
+									<tr>
+										<td><input type="radio" name="watermark.position" value="1" title="顶部居左" {if sysconf('watermark.position')==1}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="2" title="顶部居中" {if sysconf('watermark.position')==2}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="3" title="顶部居右" {if sysconf('watermark.position')==3}checked{/if}></td>
+									</tr>
+									<tr>
+										<td><input type="radio" name="watermark.position" value="4" title="中间居左" {if sysconf('watermark.position')==4}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="5" title="中间居中" {if sysconf('watermark.position')==5}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="6" title="中间居右" {if sysconf('watermark.position')==6}checked{/if}></td>
+									</tr>
+									<tr>
+										<td><input type="radio" name="watermark.position" value="7" title="底部居左" {if sysconf('watermark.position')==7}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="8" title="底部居中" {if sysconf('watermark.position')==8}checked{/if}></td>
+										<td><input type="radio" name="watermark.position" value="9" title="底部居右" {if sysconf('watermark.position')==9}checked{/if}></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					
+					
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+			</form>
+		</div>
+		<div class="layui-tab-item">
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body">
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">邮件发送模式</label>
+						<div class="layui-input-inline">
+							<select name="email.type" >
+								<option value="smtp" {eq name=":sysconf('email.type')" value="smtp"}selected{/eq}>SMTP</option>
+							</select>  
+							<a data-copy="{literal}{$email.type}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">默认SMTP</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">SMTP服务器</label>
+						<div class="layui-input-inline">
+							<input type="text" name="email.server" value="{:sysconf('email.server')}" placeholder="请输入SMTP服务器" class="layui-input">
+							<a data-copy="{literal}{$email.server}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">QQ企业邮箱：smtp.exmail.qq.com</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">SMTP端口</label>
+						<div class="layui-input-inline">
+							<input type="number" name="email.port" value="{:sysconf('email.port')}" placeholder="请输入SMTP端口" class="layui-input">
+							<a data-copy="{literal}{$email.port}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">QQ企业邮箱：465</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">SMTP验证</label>
+						<div class="layui-input-inline">
+							<select name="email.auth" >
+								<option value="ssl" {eq name=":sysconf('email.auth')" value="ssl"}selected{/eq}>SSL</option>
+								<option value="tls" {eq name=":sysconf('email.auth')" value="tls"}selected{/eq}>TLS</option>
+							</select>  
+							<a data-copy="{literal}{$email.auth}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">SMTP账号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="email.username" value="{:sysconf('email.username')}" placeholder="请输入SMTP账号" class="layui-input">
+							<a data-copy="{literal}{$email.username}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">一般为邮箱账号</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">SMTP密码</label>
+						<div class="layui-input-inline">
+							<input type="text" name="email.password" value="{:sysconf('email.password')}" placeholder="请输入SMTP密码" class="layui-input">
+							<a data-copy="{literal}{$email.password}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">一般为邮箱账号密码</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">发件人邮箱</label>
+						<div class="layui-input-inline">
+							<input type="email" name="email.formmail" value="{:sysconf('email.formmail')}" placeholder="请输入发件人邮箱" class="layui-input">
+							<a data-copy="{literal}{$email.formmail}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">收件显示的发件人邮箱</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">发件人名称</label>
+						<div class="layui-input-inline">
+							<input type="text" name="email.formname" value="{:sysconf('email.formname')}" placeholder="请输入发件人名称" class="layui-input">
+							<a data-copy="{literal}{$email.formname}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-form-mid layui-word-aux">收件显示的发件人名称</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">测试邮件</label>
+						<div class="layui-input-inline">
+							<input type="email" name="email.test_mail" value="{:sysconf('email.test_mail')}" placeholder="请输入发件人名称" class="layui-input">
+							<a data-copy="{literal}{$email.test_mail}{/literal}" class="layui-icon layui-icon-fonts-code input-right-icon"></a>
+						</div>
+						<div class="layui-word-aux"><a class="layui-btn layui-btn-primary layui-border-green" data-load="{:sysuri('testEmail')}">测试邮件</a> <span class="layui-form-mid">先保存，再测试</span></div>
+					</div>
+
+					
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+			</form>
+
+
+		</div>
+		<div class="layui-tab-item">
+			<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card">
+				<div class="layui-card-body">
+					<fieldset>
+						<legend><b class="layui-badge think-bg-violet">数据库备份还原设置</b></legend>
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>备份路径</b> Backup Path</span>
+									<input name="database.path" value="{:sysconf('database.path')}" placeholder="数据库备份路径" class="layui-input">
+									<span class="color-desc">备份文件保存的位置，相对于网站目录。</span>
+								</label>
+							</div>
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>备份卷大小</b> Backup Part</span>
+									<input type="number" name="database.part" value="{:sysconf('database.part')}" placeholder="请输入用户联系手机" class="layui-input">
+									<span class="color-desc">设置每个分卷的大小</span>
+								</label>
+							</div>
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>启用压缩</b> Backup Compress</span>
+									<div class="layui-form-item notselect" >
+										<input type="radio" name="database.compress" value="1" title="开启" {if sysconf('database.compress')}checked{/if}>
+										<input type="radio" name="database.compress" value="0" title="关闭" {if !sysconf('database.compress')}checked{/if}>
+									</div>
+									<span class="color-desc">是否启用备份文件压缩，.sql.gz 格式存放</span>
+								</label>
+							</div>
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>压缩级别</b> Compress Level</span>
+									<div id="database-level" class="middle-input"></div>
+									<input name="database.level" value="{:sysconf('database.level')}" type="hidden">
+									<span class="color-desc">压缩级别 1最低 - 9最高，越高文件越小</span>
+								</label>
+							</div>
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend><b class="layui-badge think-bg-violet">短信API接口</b></legend>
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>短信平台</b> SMS Platform</span>
+									<select name="sms.smstype" >
+										<option value="tensms" {eq name=":sysconf('sms.smstype')" value="tensms"}selected{/eq}>腾讯云短信</option>
+										<option value="alisms" {eq name=":sysconf('sms.smstype')" value="alisms"}selected{/eq}>阿里云短信</option>
+									</select>  
+
+								</label>
+							</div>
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>短信ID</b> APP id</span>
+									<input type="text" name="sms.app_id" value="{:sysconf('sms.app_id')}" placeholder="请输入短信ID" class="layui-input">
+
+								</label>
+							</div>
+							<div class="layui-col-xs3">
+								<label class="relative block">
+									<span class="help-label"><b>签名密钥</b> APP sign</span>
+									<input type="text" name="sms.app_sign" value="{:sysconf('sms.app_sign')}" placeholder="请输入签名密钥" class="layui-input">
+
+								</label>
+							</div>
+
+							
+						</div>
+					</fieldset>
+					
+				</div>
+				<div class="hr-line-dashed"></div>
+				<div class="layui-form-item text-center">
+					<button class="layui-btn" type="submit">保存</button>
+					<button class="layui-btn layui-btn-primary" type='reset'>重置</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+      
+{/block}
+{block name='script'}
+<script>
+	$('input[name="site.logo"]').uploadOneImage();
+	$('input[name="contact.logo"]').uploadOneImage();
+	$('input[name="watermark.image"]').uploadOneImage();
+
+
+layui.use(['colorpicker','slider'], function(){
+	var colorpicker = layui.colorpicker;
+	var slider = layui.slider;
+	
+	colorpicker.render({
+		elem: '#color'
+		,predefine: true
+		,color:"{:sysconf('watermark.color')}"
+		,colors: ['#F00','#0F0','#00F','rgb(255, 69, 0)','rgba(255, 69, 0, 0.5)']
+		,done: function(color){
+			$('input[name="watermark.color"]').val(color);
+		}
+	});
+	
+	slider.render({
+		elem: '#opacity'
+		,value:"{:sysconf('watermark.opacity')}"
+		,change: function(value){
+			$('input[name="watermark.opacity"]').val(value);
+			//do something
+		}
+	});
+
+	slider.render({
+		elem: '#database-level'
+		,value:"{:sysconf('database.level')}"
+		,max:9
+		,change: function(value){
+			$('input[name="database.level"]').val(value);
+			//do something
+		}
+	}); 
+
+	slider.render({
+		elem: '#compress-quality'
+		,value:"{:sysconf('compress.quality')}"
+		,change: function(value){
+			$('input[name="compress.quality"]').val(value);
+			//do something
+		}
+	}); 
+
+
+
+
+});
+</script>
+{/block}
+
